@@ -67,6 +67,9 @@ public class ConfigManager {
     public int getInfinityThreshold() {
         return plugin.getConfig().getInt("infinity-threshold", 1_000_000);
     }
+    public int getAutosavePeriod() {
+        return plugin.getConfig().getInt("autosave-period", 300);
+    }
 
     public void setConfig(@Nonnull String path, Object value) {
         plugin.getConfig().set(path, value);

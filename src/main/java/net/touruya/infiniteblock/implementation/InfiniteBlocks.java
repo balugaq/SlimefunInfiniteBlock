@@ -15,7 +15,9 @@ import net.touruya.infiniteblock.core.managers.PlayerDataManager;
 import net.touruya.infiniteblock.implementation.items.CombinedBlock;
 import net.touruya.infiniteblock.implementation.items.Combiner;
 import net.touruya.infiniteblock.utils.Constants;
+import net.touruya.infiniteblock.utils.Icons;
 import net.touruya.infiniteblock.utils.SlimefunItemUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -32,9 +34,15 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
     @Getter
     private ListenerManager listenerManager;
 
+    private static final Runnable autosaveTask = () -> {
+        PlayerDataManager.instance().saveData();
+    };
+
     private NestedItemGroup nestedGroup;
     private SubItemGroup machinesGroup;
     private SubItemGroup materialsGroup;
+
+    public RecipeType recipeType_combiner;
 
     @Override
     public void onEnable() {
@@ -74,22 +82,23 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
         // 注册指令
         getCommand("sibstorage").setExecutor(new StorageCommand(this));
 
+        // 注册配方类型
+        recipeType_combiner = new RecipeType(
+                new NamespacedKey(this, "combiner"),
+                Icons.COMBINER
+        );;
+
         // 注册物品
         registerItems();
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, autosaveTask, 1L, ConfigManager.instance().getAutosavePeriod());
     }
 
     private void registerItems() {
         // 注册机器
         new Combiner(
                 machinesGroup,
-                new SlimefunItemStack(
-                        "BLOCK_OPERATE_MACHINE",
-                        Material.CRAFTING_TABLE,
-                        "&6方块操作台",
-                        "&e将方块融合为融合方块",
-                        "&e将 100 万个方块转换为无限使用的方块",
-                        "&7需要电力运行" // todo: 暂时没做
-                ),
+                Icons.COMBINER,
                 RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{
                         SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR,
@@ -107,14 +116,14 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
                         "&e将大量方块融合为 1 个方块",
                         "&e已存储: "
                 ),
-                RecipeType.NULL,
+                recipeType_combiner,
                 new ItemStack[0]
         ).register(this);
     }
 
     @Override
     public void onDisable() {
-        PlayerDataManager.instance().saveData(); // todo: 定时保存
+        PlayerDataManager.instance().saveData();
         SlimefunItemUtil.unregisterAllItems();
         SlimefunItemUtil.unregisterAllItemGroups();
     }
@@ -124,7 +133,6 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
         return this;
     }
 
-    // todo: 这里填写你的仓库地址
     @Override
     public String getBugTrackerURL() {
         return "https://github.com/balugaq/SlimefunInfiniteBlock/issues";

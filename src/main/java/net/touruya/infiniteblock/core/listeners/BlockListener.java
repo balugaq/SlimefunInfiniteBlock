@@ -1,11 +1,14 @@
 package net.touruya.infiniteblock.core.listeners;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.Getter;
 import net.touruya.infiniteblock.core.managers.PlayerDataManager;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import net.touruya.infiniteblock.implementation.items.CombinedBlock;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -29,12 +32,17 @@ public class BlockListener implements Listener {
     public void onCombinedBlockPlace(@NotNull BlockPlaceEvent e) {
         Player player = e.getPlayer();
         Location location = e.getBlockPlaced().getLocation();
-        ItemStack item = e.getItemInHand();
-        SlimefunItem sfItem = SlimefunItem.getByItem(item);
+        final ItemStack itemStack = e.getItemInHand();
+        SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
 
         if (sfItem instanceof CombinedBlock combinedBlock) {
-            e.setCancelled(true);
-            combinedBlock.use(player, item, location);
+            if (StorageCacheUtils.getSfItem(location) == null) {
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
+                    combinedBlock.use(player, itemStack, location);
+                    player.getInventory().setItem(e.getHand(), itemStack);
+                }, 1L);
+            }
         }
     }
 

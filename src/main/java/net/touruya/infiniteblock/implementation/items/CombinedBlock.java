@@ -6,6 +6,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.md_5.bungee.api.ChatColor;
@@ -16,6 +19,7 @@ import net.touruya.infiniteblock.core.managers.ConfigManager;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -35,10 +39,14 @@ public class CombinedBlock extends SlimefunItem {
     private static final NamespacedKey STORED_KEY = new NamespacedKey(InfiniteBlocks.getInstance(), "stored");
     private static final NamespacedKey STORED_AMOUNT_KEY = new NamespacedKey(InfiniteBlocks.getInstance(), "stored_amount");
     private static CombinedBlock instance;
+    private static String name;
+    private static String[] lore;
 
     public CombinedBlock(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack slimefunItemStack, @NotNull RecipeType recipeType, ItemStack @NotNull [] recipe) {
         super(itemGroup, slimefunItemStack, recipeType, recipe);
         instance = this;
+        name = slimefunItemStack.getDisplayName();
+        lore = slimefunItemStack.getItemMeta().getLore().toArray(new String[0]);
         addItemHandler(new BlockPlaceHandler(false) {
             @Override
             public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {
@@ -47,10 +55,8 @@ public class CombinedBlock extends SlimefunItem {
     }
 
     public static @NotNull ItemStack createCombined(@NotNull Stored stored, long amount) {
-        ItemStack clone = instance.getItem().clone();
-
+        ItemStack clone = new CustomItemStack(stored.getItemStack().clone(), name, lore);
         writePDCToCombined(clone, stored, amount);
-        clone.setType(stored.getItemStack().getType());
         updateLoreForCombined(clone);
 
         return clone;
@@ -81,6 +87,7 @@ public class CombinedBlock extends SlimefunItem {
         return meta.getPersistentDataContainer().getOrDefault(STORED_AMOUNT_KEY, PersistentDataType.LONG, 0L);
     }
 
+    // todo: update action bar
     public static void updateLoreForCombined(@NotNull ItemStack itemStack) {
         ItemMeta meta = itemStack.getItemMeta();
         List<String> lore = meta.getLore();
@@ -121,19 +128,26 @@ public class CombinedBlock extends SlimefunItem {
     }
 
     public void placeBlock(@NotNull Player player, @NotNull ItemStack combined, @NotNull Stored stored, @NotNull Location location) {
-        long currentAmount = getStoredAmountFromCombined(combined);
+        final long currentAmount = getStoredAmountFromCombined(combined);
         if (currentAmount <= 0) {
             player.sendMessage("融合方块已用完");
             return;
         }
 
-        Bukkit.getScheduler().runTask(InfiniteBlocks.getInstance(), () -> {
-            Block block = location.getBlock();
-            block.setType(stored.getItemStack().getType());
-        });
-
+        final Block block = location.getBlock();
+        final Material material = stored.getItemStack().getType();
         if (stored instanceof SlimefunStored ss) {
-            Slimefun.getDatabaseManager().getBlockDataController().createBlock(location, ss.getItem().getId());
+            final SlimefunItem slimefunItem = ss.getItem();
+            Slimefun.getDatabaseManager().getBlockDataController().createBlock(location, slimefunItem.getId());
+            if (material == Material.PLAYER_HEAD || material == Material.PLAYER_WALL_HEAD) {
+                if (slimefunItem.getItem() instanceof SlimefunItemStack sfis) {
+                    String texture = sfis.getSkullTexture().orElse(null);
+                    if (texture != null) {
+                        PlayerSkin skin = PlayerSkin.fromBase64(texture);
+                        PlayerHead.setSkin(block, skin, false);
+                    }
+                }
+            }
         }
 
         if (!isInfinity(combined)) {
