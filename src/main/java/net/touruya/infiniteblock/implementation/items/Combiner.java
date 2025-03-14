@@ -52,7 +52,7 @@ public class Combiner extends SlimefunItem {
 
             @Override
             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
-                addItem(CRAFT_SLOT, CRAFT_ICON, (p, s, i1, a) -> {
+                menu.addMenuClickHandler(CRAFT_SLOT, (p, s, i1, a) -> {
                     craft(p, menu);
                     return false;
                 });

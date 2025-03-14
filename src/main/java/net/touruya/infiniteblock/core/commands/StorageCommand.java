@@ -45,6 +45,11 @@ public class StorageCommand extends SubCommand {
             return false;
         }
 
+        if (args.length < 1) {
+            player.sendMessage("你必须输入一个数量才能执行这个指令");
+            return false;
+        }
+
         int amount;
         try {
             amount = Integer.parseInt(args[0]);

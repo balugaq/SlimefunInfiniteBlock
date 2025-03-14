@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.Getter;
+import net.touruya.infiniteblock.core.commands.StorageCommand;
 import net.touruya.infiniteblock.core.managers.ConfigManager;
 import net.touruya.infiniteblock.core.managers.ListenerManager;
 import net.touruya.infiniteblock.core.managers.PlayerDataManager;
@@ -59,6 +60,9 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
         listenerManager = new ListenerManager(this);
         listenerManager.setup();
 
+        // 注册指令
+        getCommand("sibstorage").setExecutor(new StorageCommand(this));
+
         // 注册物品
         registerItems();
     }
@@ -89,12 +93,12 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
                         "COMBINED_BLOCK",
                         Material.BEDROCK,
                         "&6融合方块",
-                        "&e将 100 万个方块融合为 1 个方块",
+                        "&e将大量方块融合为 1 个方块",
                         "&e已存储: "
                 ),
                 RecipeType.NULL,
                 new ItemStack[0]
-        );
+        ).register(this);
     }
 
     @Override

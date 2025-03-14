@@ -1,10 +1,13 @@
 package net.touruya.infiniteblock.api.stored;
 
+import lombok.Getter;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Getter
 public class VanillaStored implements Stored {
     private final Material material;
 
@@ -25,7 +28,7 @@ public class VanillaStored implements Stored {
 
     @Override
     public @NotNull String getName() {
-        return material.name();
+        return ItemStackHelper.getDisplayName(new ItemStack(material));
     }
 
     @Override

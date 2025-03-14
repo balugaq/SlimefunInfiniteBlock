@@ -14,6 +14,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 public class ConfigManager {
+    public static ConfigManager instance() {
+        return InfiniteBlocks.getInstance().getConfigManager();
+    }
     @Nonnull
     private final InfiniteBlocks plugin;
 
@@ -61,7 +64,7 @@ public class ConfigManager {
     }
 
     public int getInfinityThreshold() {
-        return plugin.getConfig().getInt("infinity-threshold");
+        return plugin.getConfig().getInt("infinity-threshold", 1_000_000);
     }
 
     public void setConfig(@Nonnull String path, Object value) {

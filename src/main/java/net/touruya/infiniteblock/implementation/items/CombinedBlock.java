@@ -6,12 +6,18 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import net.md_5.bungee.api.ChatColor;
 import net.touruya.infiniteblock.api.stored.SlimefunStored;
 import net.touruya.infiniteblock.api.stored.Stored;
 import net.touruya.infiniteblock.api.stored.VanillaStored;
+import net.touruya.infiniteblock.core.managers.ConfigManager;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -21,10 +27,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class CombinedBlock extends SlimefunItem {
-    public static final int INFINITY_THRESHOLD = 1_000_000;
+    public static final int INFINITY_THRESHOLD = ConfigManager.instance().getInfinityThreshold();
     public static final String INFINITY_STRING = "∞";
     private static final NamespacedKey STORED_KEY = new NamespacedKey(InfiniteBlocks.getInstance(), "stored");
     private static final NamespacedKey STORED_AMOUNT_KEY = new NamespacedKey(InfiniteBlocks.getInstance(), "stored_amount");
@@ -54,7 +62,7 @@ public class CombinedBlock extends SlimefunItem {
         ItemMeta meta = itemStack.getItemMeta();
         meta.getPersistentDataContainer().set(STORED_KEY, PersistentDataType.STRING, stored.getIdentifier());
         meta.getPersistentDataContainer().set(STORED_AMOUNT_KEY, PersistentDataType.LONG, amount);
-        Slimefun.getItemDataService().setItemData(itemStack, instance.getId());
+        Slimefun.getItemDataService().setItemData(meta, instance.getId());
         itemStack.setItemMeta(meta);
     }
 
@@ -87,9 +95,9 @@ public class CombinedBlock extends SlimefunItem {
         }
 
         if (isInfinity(itemStack)) {
-            lore.set(1, "已存储: " + getStoredFromCombined(itemStack).getName() + "x " + INFINITY_STRING);
+            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6已存储: " + getStoredFromCombined(itemStack).getName() + "x " + INFINITY_STRING));
         } else {
-            lore.set(1, "已存储: " + getStoredFromCombined(itemStack).getName() + "x " + getStoredAmountFromCombined(itemStack));
+            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6已存储: " + getStoredFromCombined(itemStack).getName() + "x " + getStoredAmountFromCombined(itemStack)));
         }
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
@@ -99,8 +107,8 @@ public class CombinedBlock extends SlimefunItem {
         return getStoredAmountFromCombined(itemStack) >= INFINITY_THRESHOLD;
     }
 
-    public void use(@NotNull Player player, @NotNull ItemStack itemStack, @NotNull Location location) {
-        Stored stored = getStoredFromCombined(itemStack);
+    public void use(@NotNull Player player, @NotNull ItemStack combined, @NotNull Location location) {
+        Stored stored = getStoredFromCombined(combined);
         if (stored == null) {
             return;
         }
@@ -110,20 +118,35 @@ public class CombinedBlock extends SlimefunItem {
             return;
         }
 
-        placeBlock(player, storedItem, stored, location);
-        updateLoreForCombined(itemStack);
+        placeBlock(player, combined, stored, location);
+        updateLoreForCombined(combined);
     }
 
-    public void placeBlock(@NotNull Player player, @NotNull ItemStack itemStack, @NotNull Stored stored, @NotNull Location location) {
-        long currentAmount = getStoredAmountFromCombined(itemStack);
+    public void placeBlock(@NotNull Player player, @NotNull ItemStack combined, @NotNull Stored stored, @NotNull Location location) {
+        long currentAmount = getStoredAmountFromCombined(combined);
         if (currentAmount <= 0) {
             player.sendMessage("融合方块已用完");
             return;
         }
 
-        location.getBlock().setType(itemStack.getType());
-        if (!isInfinity(itemStack)) {
-            writePDCToCombined(itemStack, stored, currentAmount - 1);
+        Bukkit.getScheduler().runTask(InfiniteBlocks.getInstance(), () -> {
+            Block block = location.getBlock();
+            block.setType(stored.getItemStack().getType());
+        });
+
+        if (stored instanceof SlimefunStored ss) {
+            Slimefun.getDatabaseManager().getBlockDataController().createBlock(location, ss.getItem().getId());
         }
+
+        if (!isInfinity(combined)) {
+            writePDCToCombined(combined, stored, currentAmount - 1);
+        }
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class Entry {
+        private final Location location;
+        private final Stored stored;
     }
 }

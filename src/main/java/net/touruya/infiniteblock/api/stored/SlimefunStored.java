@@ -1,10 +1,12 @@
 package net.touruya.infiniteblock.api.stored;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Getter
 public class SlimefunStored implements Stored {
     private final SlimefunItem item;
 
