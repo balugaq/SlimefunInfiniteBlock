@@ -1,0 +1,25 @@
+name: SlimefunInfiniteBlocks
+version: ${project.version}
+main: net.touruya.infiniteblock.implementation.InfiniteBlocks
+api-version: 1.20
+depend:
+- Slimefun
+description: 无限方块
+authors:
+- TouRuya
+- balugaq
+commands:
+  sibstorage:
+    aliases:
+      - slimefuninfiniteblockstorage
+
+permissions:
+  slimefuninfiniteblocks.admin:
+    description: Allows you to use all SFWorldedit commands
+    default: op
+  slimefuninfiniteblocks.command.admin:
+    description: Allows you to use all the SFWorldedit commands
+    default: op
+  slimefuninfiniteblocks.command.storage:
+    description: Allows you to use the /sibstorage command
+    default: op
