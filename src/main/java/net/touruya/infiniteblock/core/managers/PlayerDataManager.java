@@ -21,6 +21,7 @@ public class PlayerDataManager {
     private final InfiniteBlocks plugin;
     private final File file;
     private YamlConfiguration snapshot;
+
     public PlayerDataManager(InfiniteBlocks plugin, File file) {
         this.plugin = plugin;
         this.file = file;

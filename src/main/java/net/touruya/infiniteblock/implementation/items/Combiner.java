@@ -103,7 +103,7 @@ public class Combiner extends SlimefunItem {
             }
 
             if (innerItem == null) {
-                if (!isCombinedBlock(itemStack)){
+                if (!isCombinedBlock(itemStack)) {
                     innerItem = itemStack;
                 } else {
                     innerItem = getUnpackedItem(itemStack);

@@ -27,9 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class CombinedBlock extends SlimefunItem {
     public static final int INFINITY_THRESHOLD = ConfigManager.instance().getInfinityThreshold();
@@ -146,7 +144,7 @@ public class CombinedBlock extends SlimefunItem {
     @Data
     @AllArgsConstructor
     public static class Entry {
-        private final Location location;
-        private final Stored stored;
+        private final @NotNull Location location;
+        private final @NotNull Stored stored;
     }
 }

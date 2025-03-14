@@ -1,8 +1,9 @@
 package net.touruya.infiniteblock.implementation;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.NestedItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.SubItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
@@ -14,6 +15,7 @@ import net.touruya.infiniteblock.core.managers.PlayerDataManager;
 import net.touruya.infiniteblock.implementation.items.CombinedBlock;
 import net.touruya.infiniteblock.implementation.items.Combiner;
 import net.touruya.infiniteblock.utils.Constants;
+import net.touruya.infiniteblock.utils.SlimefunItemUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -30,8 +32,9 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
     @Getter
     private ListenerManager listenerManager;
 
-    private ItemGroup machinesGroup;
-    private ItemGroup materialsGroup;
+    private NestedItemGroup nestedGroup;
+    private SubItemGroup machinesGroup;
+    private SubItemGroup materialsGroup;
 
     @Override
     public void onEnable() {
@@ -40,18 +43,26 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
 
         playerDataManager = new PlayerDataManager(this, Constants.DATA_FILE);
 
+        nestedGroup = new NestedItemGroup(
+                new NamespacedKey(this, "infinite_blocks"),
+                new CustomItemStack(Material.CHEST, "&6无限方块")
+        );
+
         // 创建机器子组
-        machinesGroup = new ItemGroup(
+        machinesGroup = new SubItemGroup(
                 new NamespacedKey(this, "machines"),
+                nestedGroup,
                 new CustomItemStack(Material.DISPENSER, "&6无限方块 - 机器")
         );
 
         // 创建材料子组
-        materialsGroup = new ItemGroup(
+        materialsGroup = new SubItemGroup(
                 new NamespacedKey(this, "materials"),
+                nestedGroup,
                 new CustomItemStack(Material.NETHER_STAR, "&6无限方块 - 材料")
         );
 
+        nestedGroup.register(this);
         // 注册子组
         machinesGroup.register(this);
         materialsGroup.register(this);
@@ -103,7 +114,9 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public void onDisable() {
-        PlayerDataManager.instance().saveData();
+        PlayerDataManager.instance().saveData(); // todo: 定时保存
+        SlimefunItemUtil.unregisterAllItems();
+        SlimefunItemUtil.unregisterAllItemGroups();
     }
 
     @Override

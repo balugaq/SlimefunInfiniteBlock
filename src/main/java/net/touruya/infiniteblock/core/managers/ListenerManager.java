@@ -12,8 +12,8 @@ import java.util.List;
 
 @Getter
 public class ListenerManager {
-    private InfiniteBlocks plugin;
-    private @NotNull List<Listener> listeners = new ArrayList<>();
+    private final InfiniteBlocks plugin;
+    private final @NotNull List<Listener> listeners = new ArrayList<>();
 
     public ListenerManager(InfiniteBlocks plugin) {
         this.plugin = plugin;

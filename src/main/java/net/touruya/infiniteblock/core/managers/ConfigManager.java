@@ -14,9 +14,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 public class ConfigManager {
-    public static ConfigManager instance() {
-        return InfiniteBlocks.getInstance().getConfigManager();
-    }
     @Nonnull
     private final InfiniteBlocks plugin;
 
@@ -24,6 +21,10 @@ public class ConfigManager {
         this.plugin = plugin;
 
         setupDefaultConfig();
+    }
+
+    public static ConfigManager instance() {
+        return InfiniteBlocks.getInstance().getConfigManager();
     }
 
     private void setupDefaultConfig() {

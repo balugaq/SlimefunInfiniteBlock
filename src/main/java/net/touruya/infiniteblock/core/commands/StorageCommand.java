@@ -22,6 +22,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
+//todo : 新增指令，允许查看/设置玩家已挖了多少xxx方块
 @Getter
 public class StorageCommand extends SubCommand {
     private static final String KEY = "storage";
@@ -30,6 +31,18 @@ public class StorageCommand extends SubCommand {
 
     public StorageCommand(@Nonnull InfiniteBlocks plugin) {
         this.plugin = plugin;
+    }
+
+    @Nullable
+    public static ItemStack create(@NotNull ItemStack holdingItem, long amount) {
+        SlimefunItem slimefunItem = SlimefunItem.getByItem(holdingItem);
+        if (slimefunItem != null) {
+            return CombinedBlock.createCombined(new SlimefunStored(slimefunItem), amount);
+        } else if (SlimefunUtils.isItemSimilar(holdingItem, new ItemStack(holdingItem.getType()), true, false)) {
+            return CombinedBlock.createCombined(new VanillaStored(holdingItem.getType()), amount);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -83,17 +96,5 @@ public class StorageCommand extends SubCommand {
     @Nonnull
     public String getKey() {
         return KEY;
-    }
-
-    @Nullable
-    public static ItemStack create(@NotNull ItemStack holdingItem, long amount) {
-        SlimefunItem slimefunItem = SlimefunItem.getByItem(holdingItem);
-        if (slimefunItem != null) {
-            return CombinedBlock.createCombined(new SlimefunStored(slimefunItem), amount);
-        } else if (SlimefunUtils.isItemSimilar(holdingItem, new ItemStack(holdingItem.getType()), true, false)){
-            return CombinedBlock.createCombined(new VanillaStored(holdingItem.getType()), amount);
-        } else {
-            return null;
-        }
     }
 }
