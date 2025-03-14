@@ -3,9 +3,9 @@ package net.touruya.infiniteblock.core.listeners;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import lombok.Getter;
+import net.touruya.infiniteblock.core.managers.PlayerDataManager;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import net.touruya.infiniteblock.implementation.items.CombinedBlock;
-import net.touruya.infiniteblock.core.managers.PlayerDataManager;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class BlockListener implements Listener {
@@ -25,7 +26,7 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onCombinedBlockPlace(BlockPlaceEvent e) {
+    public void onCombinedBlockPlace(@NotNull BlockPlaceEvent e) {
         Player player = e.getPlayer();
         Location location = e.getBlockPlaced().getLocation();
         ItemStack item = e.getItemInHand();
@@ -38,7 +39,7 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void countBlock(BlockBreakEvent event) {
+    public void countBlock(@NotNull BlockBreakEvent event) {
         Block block = event.getBlock();
         Location location = block.getLocation();
         SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(location);

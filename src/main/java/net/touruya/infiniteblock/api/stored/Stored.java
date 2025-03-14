@@ -6,5 +6,6 @@ public interface Stored {
     String getName();
 
     ItemStack getItemStack();
+
     String getIdentifier();
 }

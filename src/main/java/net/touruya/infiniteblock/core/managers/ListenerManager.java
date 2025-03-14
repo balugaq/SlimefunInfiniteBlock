@@ -5,6 +5,7 @@ import net.touruya.infiniteblock.core.listeners.BlockListener;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,8 @@ import java.util.List;
 @Getter
 public class ListenerManager {
     private InfiniteBlocks plugin;
-    private List<Listener> listeners = new ArrayList<>();
+    private @NotNull List<Listener> listeners = new ArrayList<>();
+
     public ListenerManager(InfiniteBlocks plugin) {
         this.plugin = plugin;
     }

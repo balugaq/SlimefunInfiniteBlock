@@ -1,30 +1,35 @@
 package net.touruya.infiniteblock.implementation.items;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.touruya.infiniteblock.api.stored.Stored;
+import net.touruya.infiniteblock.core.commands.StorageCommand;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
 public class Combiner extends SlimefunItem {
     private static final int[] BACKGROUND_SLOTS = {
-            0,  1,  2,  3,  4,  5,  6,  7,  8,
-            9,  10, 11, 12, 13, 14, 15, 16, 17,
-            18,     20, 21, 22, 23, 24,     26,
-            27, 28, 29, 30,     32, 33, 34, 35,
-            36, 37, 38, 39,     41, 42, 43, 44,
+            0, 1, 2, 3, 4, 5, 6, 7, 8,
+            9, 10, 11, 12, 13, 14, 15, 16, 17,
+            18, 20, 21, 22, 23, 24, 26,
+            27, 28, 29, 30, 32, 33, 34, 35,
+            36, 37, 38, 39, 41, 42, 43, 44,
             45, 46, 47, 48, 49, 50, 51, 52, 53,
     };
     private static final ItemStack BACKGROUND = new CustomItemStack(Material.GRAY_STAINED_GLASS_PANE, " ", " ");
@@ -33,7 +38,7 @@ public class Combiner extends SlimefunItem {
     private static final int OUTPUT_SLOT = 40;
     private static final ItemStack CRAFT_ICON = new CustomItemStack(Material.DIAMOND, "Combiner", "Craft");
 
-    public Combiner(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public Combiner(@NotNull ItemGroup category, @NotNull SlimefunItemStack item, @NotNull RecipeType recipeType, ItemStack @NotNull [] recipe) {
         super(category, item, recipeType, recipe);
         new BlockMenuPreset(this.getId(), getItemName()) {
 
@@ -55,12 +60,16 @@ public class Combiner extends SlimefunItem {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return false;
+                return player.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK);
             }
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow itemTransportFlow) {
-                return new int[0];
+                if (itemTransportFlow == ItemTransportFlow.INSERT) {
+                    return INPUT_SLOTS;
+                } else {
+                    return new int[]{OUTPUT_SLOT};
+                }
             }
         };
     }
@@ -69,14 +78,18 @@ public class Combiner extends SlimefunItem {
         return SlimefunItem.getByItem(itemStack) instanceof CombinedBlock;
     }
 
-    public static ItemStack getUnpackedItem(ItemStack itemStack) {
-        Stored stored = CombinedBlock.getStored(itemStack);
-        long amount = CombinedBlock.getStoredAmount(itemStack);
+    public static @NotNull ItemStack getUnpackedItem(@NotNull ItemStack combined) {
+        Stored stored = CombinedBlock.getStoredFromCombined(combined);
+        if (stored == null) {
+            return new ItemStack(Material.AIR);
+        }
+        long amount = CombinedBlock.getStoredAmountFromCombined(combined);
         return new CustomItemStack(stored.getItemStack(), (int) amount);
     }
 
-    public static boolean craft(Player player, BlockMenu menu) {
-        ItemStack template = null;
+    @CanIgnoreReturnValue
+    public static boolean craft(@NotNull Player player, @NotNull BlockMenu menu) {
+        ItemStack innerItem = null;
         long totalAmount = 0;
         boolean isAllSimilar = true;
         for (int inputSlot : INPUT_SLOTS) {
@@ -89,10 +102,14 @@ public class Combiner extends SlimefunItem {
                 itemStack = getUnpackedItem(itemStack);
             }
 
-            if (template == null) {
-                template = itemStack;
+            if (innerItem == null) {
+                if (!isCombinedBlock(itemStack)){
+                    innerItem = itemStack;
+                } else {
+                    innerItem = getUnpackedItem(itemStack);
+                }
             } else {
-                if (!SlimefunUtils.isItemSimilar(template, itemStack, true, false)) {
+                if (!SlimefunUtils.isItemSimilar(innerItem, itemStack, true, false)) {
                     isAllSimilar = false;
                     break;
                 }
@@ -101,12 +118,17 @@ public class Combiner extends SlimefunItem {
             totalAmount += itemStack.getAmount();
         }
 
+        if (innerItem == null) {
+            player.sendMessage("请确保至少有一个输入物品");
+            return false;
+        }
+
         if (!isAllSimilar) {
             player.sendMessage("请确保所有输入物品都相同");
             return false;
         }
 
-        if (template.getType() == Material.AIR || !template.getType().isBlock()) {
+        if (innerItem.getType() == Material.AIR || !innerItem.getType().isBlock()) {
             player.sendMessage("请确保输入物品为方块");
             return false;
         }
@@ -133,10 +155,7 @@ public class Combiner extends SlimefunItem {
         }
 
         // push item
-        ItemStack itemStack = CombinedBlock.createItemStack(
-                CombinedBlock.getStored(template),
-                totalAmount
-        );
+        ItemStack itemStack = StorageCommand.create(innerItem, totalAmount);
 
         menu.pushItem(itemStack, OUTPUT_SLOT);
         player.sendMessage("合成成功");

@@ -1,18 +1,21 @@
 package net.touruya.infiniteblock.core.commands;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import lombok.Getter;
 import net.touruya.infiniteblock.api.objects.SubCommand;
-import net.touruya.infiniteblock.implementation.InfiniteBlocks;
-import net.touruya.infiniteblock.implementation.items.CombinedBlock;
 import net.touruya.infiniteblock.api.stored.SlimefunStored;
 import net.touruya.infiniteblock.api.stored.VanillaStored;
+import net.touruya.infiniteblock.implementation.InfiniteBlocks;
+import net.touruya.infiniteblock.implementation.items.CombinedBlock;
 import net.touruya.infiniteblock.utils.PermissionUtil;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -59,7 +62,7 @@ public class StorageCommand extends SubCommand {
             player.sendMessage("你必须持有方块才能执行这个指令");
         }
 
-        create(holdingItem, amount);
+        player.getInventory().addItem(create(holdingItem, amount));
 
         return true;
     }
@@ -68,10 +71,6 @@ public class StorageCommand extends SubCommand {
     @Nonnull
     @ParametersAreNonnullByDefault
     public List<String> onTabComplete(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
-        if (!PermissionUtil.hasPermission(commandSender, this)) {
-            return new ArrayList<>();
-        }
-
         return new ArrayList<>();
     }
 
@@ -81,12 +80,15 @@ public class StorageCommand extends SubCommand {
         return KEY;
     }
 
-    public void create(ItemStack holdingItem, int amount) {
+    @Nullable
+    public static ItemStack create(@NotNull ItemStack holdingItem, long amount) {
         SlimefunItem slimefunItem = SlimefunItem.getByItem(holdingItem);
         if (slimefunItem != null) {
-            CombinedBlock.createItemStack(new SlimefunStored(slimefunItem), amount);
+            return CombinedBlock.createCombined(new SlimefunStored(slimefunItem), amount);
+        } else if (SlimefunUtils.isItemSimilar(holdingItem, new ItemStack(holdingItem.getType()), true, false)){
+            return CombinedBlock.createCombined(new VanillaStored(holdingItem.getType()), amount);
         } else {
-            CombinedBlock.createItemStack(new VanillaStored(holdingItem.getType()), amount);
+            return null;
         }
     }
 }

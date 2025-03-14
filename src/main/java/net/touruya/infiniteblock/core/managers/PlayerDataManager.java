@@ -4,28 +4,31 @@ import lombok.Getter;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * // data.yml
  * player_name:
- *   count:
- *     sfId: 12345 # 玩家总共破坏的方块数量，支持粘液方块id
- *     material: 4040 # 玩家总共破坏的方块数量，支持原版material
+ * count:
+ * sfId: 12345 # 玩家总共破坏的方块数量，支持粘液方块id
+ * material: 4040 # 玩家总共破坏的方块数量，支持原版material
  */
 @Getter
 public class PlayerDataManager {
-    public static PlayerDataManager instance() {
-        return InfiniteBlocks.getInstance().getPlayerDataManager();
-    }
-
-    private InfiniteBlocks plugin;
-    private File file;
+    private final InfiniteBlocks plugin;
+    private final File file;
     private YamlConfiguration snapshot;
     public PlayerDataManager(InfiniteBlocks plugin, File file) {
         this.plugin = plugin;
+        this.file = file;
         loadData();
+    }
+
+    public static PlayerDataManager instance() {
+        return InfiniteBlocks.getInstance().getPlayerDataManager();
     }
 
     public void saveData() {
@@ -38,7 +41,17 @@ public class PlayerDataManager {
     }
 
     public void loadData() {
-        // 从 data.yml 读取数据，存储到 snapshot 中
+        if (!file.exists()) {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         try {
             snapshot = YamlConfiguration.loadConfiguration(file);
         } catch (Exception e) {
@@ -46,7 +59,7 @@ public class PlayerDataManager {
         }
     }
 
-    public void setSlimefunIdCount(String playerName, String sfId, int count) {
+    public void setSlimefunIdCount(@NotNull String playerName, @NotNull String sfId, int count) {
         if (!snapshot.contains(playerName)) {
             snapshot.createSection(playerName).createSection("count");
         }
@@ -54,7 +67,7 @@ public class PlayerDataManager {
         snapshot.getConfigurationSection(playerName).getConfigurationSection("count").set(sfId, count);
     }
 
-    public void setMaterialCount(String playerName, String material, int count) {
+    public void setMaterialCount(@NotNull String playerName, @NotNull String material, int count) {
         if (!snapshot.contains(playerName)) {
             snapshot.createSection(playerName).createSection("count");
         }
@@ -62,7 +75,7 @@ public class PlayerDataManager {
         snapshot.getConfigurationSection(playerName).getConfigurationSection("count").set(material, count);
     }
 
-    public int getCurrentCount(String playerName, String key) {
+    public int getCurrentCount(@NotNull String playerName, @NotNull String key) {
         if (!snapshot.contains(playerName)) {
             return 0;
         }
@@ -79,7 +92,7 @@ public class PlayerDataManager {
         return section.getInt(key);
     }
 
-    public void resetCount(String playerName) {
+    public void resetCount(@NotNull String playerName) {
         if (!snapshot.contains(playerName)) {
             return;
         }
@@ -87,12 +100,12 @@ public class PlayerDataManager {
         snapshot.getConfigurationSection(playerName).set("count", null);
     }
 
-    public void addSlimefunIdCount(String playerName, String sfId, int count) {
+    public void addSlimefunIdCount(@NotNull String playerName, @NotNull String sfId, int count) {
         int currentCount = getCurrentCount(playerName, sfId);
         setSlimefunIdCount(playerName, sfId, currentCount + count);
     }
 
-    public void addMaterialCount(String playerName, String material, int count) {
+    public void addMaterialCount(@NotNull String playerName, @NotNull String material, int count) {
         int currentCount = getCurrentCount(playerName, material);
         setMaterialCount(playerName, material, currentCount + count);
     }

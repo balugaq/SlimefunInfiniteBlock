@@ -1,24 +1,23 @@
 package net.touruya.infiniteblock.implementation;
 
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.Getter;
 import net.touruya.infiniteblock.core.managers.ConfigManager;
 import net.touruya.infiniteblock.core.managers.ListenerManager;
+import net.touruya.infiniteblock.core.managers.PlayerDataManager;
 import net.touruya.infiniteblock.implementation.items.CombinedBlock;
 import net.touruya.infiniteblock.implementation.items.Combiner;
-import net.touruya.infiniteblock.core.listeners.BlockListener;
-import net.touruya.infiniteblock.core.managers.PlayerDataManager;
+import net.touruya.infiniteblock.utils.Constants;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
+import org.jetbrains.annotations.NotNull;
 
 public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
     @Getter
@@ -38,7 +37,7 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
         instance = this;
         configManager = new ConfigManager(this);
 
-        playerDataManager = new PlayerDataManager(this, new File(InfiniteBlocks.getInstance().getDataFolder(), "data/data.yml"));
+        playerDataManager = new PlayerDataManager(this, Constants.DATA_FILE);
 
         // 创建机器子组
         machinesGroup = new ItemGroup(
@@ -77,7 +76,7 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
                         "&7需要电力运行" // todo: 暂时没做
                 ),
                 RecipeType.ENHANCED_CRAFTING_TABLE,
-                new ItemStack[] {
+                new ItemStack[]{
                         SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR,
                         SlimefunItems.CARBONADO, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.CARBONADO,
                         SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR
@@ -99,7 +98,12 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
     }
 
     @Override
-    public JavaPlugin getJavaPlugin() {
+    public void onDisable() {
+        PlayerDataManager.instance().saveData();
+    }
+
+    @Override
+    public @NotNull JavaPlugin getJavaPlugin() {
         return this;
     }
 

@@ -2,29 +2,17 @@ package net.touruya.infiniteblock.api.stored;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class VanillaStored implements Stored {
     private final Material material;
+
     public VanillaStored(Material material) {
         this.material = material;
     }
 
-    @Override
-    public String getName() {
-        return material.name();
-    }
-
-    @Override
-    public ItemStack getItemStack() {
-        return new ItemStack(material);
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "vanilla:" + material.name();
-    }
-
-    public static VanillaStored loadFromIdentifier(String identifier) {
+    public static @Nullable VanillaStored loadFromIdentifier(@NotNull String identifier) {
         String[] parts = identifier.split(":");
         if (parts.length == 2 && parts[0].equals("vanilla")) {
             Material material = Material.getMaterial(parts[1]);
@@ -33,5 +21,20 @@ public class VanillaStored implements Stored {
             }
         }
         return null;
+    }
+
+    @Override
+    public @NotNull String getName() {
+        return material.name();
+    }
+
+    @Override
+    public @NotNull ItemStack getItemStack() {
+        return new ItemStack(material);
+    }
+
+    @Override
+    public @NotNull String getIdentifier() {
+        return "vanilla:" + material.name();
     }
 }
