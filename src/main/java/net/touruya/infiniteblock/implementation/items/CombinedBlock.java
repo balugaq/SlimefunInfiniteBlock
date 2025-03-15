@@ -20,7 +20,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -62,6 +61,17 @@ public class CombinedBlock extends SlimefunItem {
         meta.getPersistentDataContainer().set(Constants.STORED_AMOUNT_KEY, PersistentDataType.LONG, amount);
         Slimefun.getItemDataService().setItemData(meta, instance.getId());
         itemStack.setItemMeta(meta);
+    }
+
+    public static void generateParticle(Location location) {
+        // /particle minecraft:firework ~ ~0.5 ~ 0 0 0 0.1 30
+        location.getWorld().spawnParticle(
+                Particle.FIREWORKS_SPARK,
+                location.clone().add(0.5, 0.5, 0.5),
+                10,
+                0, 0, 0,
+                0.1
+        );
     }
 
     public void use(@NotNull Player player, @NotNull ItemStack combined, @NotNull Location location) {
@@ -112,17 +122,6 @@ public class CombinedBlock extends SlimefunItem {
         if (PaperLib.isPaper()) {
             StoredUtils.updateActionBarForPlayer(player, stored, leftAmount);
         }
-    }
-
-    public static void generateParticle(Location location) {
-        // /particle minecraft:firework ~ ~0.5 ~ 0 0 0 0.1 30
-        location.getWorld().spawnParticle(
-                Particle.FIREWORKS_SPARK,
-                location.clone().add(0.5, 0.5, 0.5),
-                10,
-                0, 0, 0,
-                0.1
-        );
     }
 
     @Data

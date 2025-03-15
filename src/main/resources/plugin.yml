@@ -3,11 +3,11 @@ version: ${project.version}
 main: net.touruya.infiniteblock.implementation.InfiniteBlocks
 api-version: 1.20
 depend:
-- Slimefun
+  - Slimefun
 description: 无限方块
 authors:
-- TouRuya
-- balugaq
+  - TouRuya
+  - balugaq
 commands:
   sibstorage:
     aliases:
@@ -26,6 +26,6 @@ permissions:
   slimefuninfiniteblock.command.storage:
     description: Allows you to use the /sibstorage command
     default: op
-  slifefuninfiniteblock.command.star:
+  slimefuninfiniteblock.command.star:
     description: Allows you to use the /sibstar command
     default: op

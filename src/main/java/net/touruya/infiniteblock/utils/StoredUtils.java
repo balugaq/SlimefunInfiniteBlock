@@ -78,7 +78,7 @@ public class StoredUtils {
         if (amount <= 0) {
             return new ItemStack(Material.AIR);
         }
-        return new CustomItemStack(stored.getItemStack(), amount > Integer.MAX_VALUE? Integer.MAX_VALUE : (int) amount);
+        return new CustomItemStack(stored.getItemStack(), amount > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) amount);
     }
 
     public static boolean isInfiniteStar(ItemStack itemStack) {
