@@ -33,7 +33,7 @@ public class Icons {
             "SIB_INFINITE_STAR",
             Material.NETHER_STAR,
             "&6无限之星",
-            "&6用于在物质爆发衡量仪中产出物质",
+            "&6用于在物质爆发平衡器中产出物质",
             "&6通过挖掘方块获得"
     );
 

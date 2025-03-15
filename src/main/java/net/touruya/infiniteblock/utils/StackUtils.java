@@ -63,7 +63,7 @@ public class StackUtils {
      * Checks if items match each other, checks go in order from lightest to heaviest
      *
      * @param itemStack2 The {@link ItemStack} to compare against
-     * @param itemStack The {@link ItemStack} being evaluated
+     * @param itemStack  The {@link ItemStack} being evaluated
      * @return True if items match
      */
     public static boolean itemsMatch(@Nonnull ItemStack itemStack2, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount, boolean checkCustomModelId) {

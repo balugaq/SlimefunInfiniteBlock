@@ -42,10 +42,12 @@ public class StarCommand extends SubCommand {
         ItemStack holdingItem = player.getInventory().getItemInMainHand();
         if (holdingItem == null || holdingItem.getType() == Material.AIR) {
             player.sendMessage("你必须持有物品才能执行这个指令");
+            return false;
         }
 
         if (!holdingItem.getType().isBlock()) {
             player.sendMessage("你必须持有方块才能执行这个指令");
+            return false;
         }
 
         player.getInventory().addItem(StoredUtils.createStar(holdingItem));

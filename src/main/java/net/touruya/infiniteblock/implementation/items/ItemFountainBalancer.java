@@ -158,7 +158,7 @@ public class ItemFountainBalancer extends AContainer {
 
         int beforeAmount = innerItem.getAmount();
         ItemStack left = BlockMenuUtil.pushItem(menu, innerItem, OUTPUT_SLOTS);
-        int afterAmount = left == null? 0 : left.getAmount();
+        int afterAmount = left == null ? 0 : left.getAmount();
         if (beforeAmount == afterAmount) {
             feedback(menu, "输出槽已满", false);
             return false;
