@@ -15,7 +15,6 @@ public class SIBRecipeTypes {
                 Constants.COMBINER,
                 Icons.COMBINER
         );
-        ;
 
         SIBRecipeTypes.RECIPE_TYPE_BREAK_BLOCK = new RecipeType(
                 Constants.BREAK_BLOCK,

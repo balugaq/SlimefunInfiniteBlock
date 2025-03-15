@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
@@ -22,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class InfiniteStar extends SlimefunItem {
+public class InfiniteStar extends SlimefunItem implements NotPlaceable {
     private static InfiniteStar instance;
     private static String name;
     private static String[] lore;
@@ -30,6 +31,8 @@ public class InfiniteStar extends SlimefunItem {
     public InfiniteStar(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack slimefunItemStack, @NotNull RecipeType recipeType, ItemStack @NotNull [] recipe) {
         super(itemGroup, slimefunItemStack, recipeType, recipe);
         instance = this;
+        name = instance.getItemName();
+        lore = instance.getItem().getItemMeta().getLore().toArray(new String[0]);
         addItemHandler(new BlockPlaceHandler(false) {
             @Override
             public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {

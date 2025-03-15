@@ -2,6 +2,7 @@ package net.touruya.infiniteblock.implementation;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import lombok.Getter;
+import net.touruya.infiniteblock.core.commands.StarCommand;
 import net.touruya.infiniteblock.core.commands.StorageCommand;
 import net.touruya.infiniteblock.core.managers.ConfigManager;
 import net.touruya.infiniteblock.core.managers.ListenerManager;
@@ -42,6 +43,7 @@ public class InfiniteBlocks extends JavaPlugin implements SlimefunAddon {
 
         // 注册指令
         getCommand("sibstorage").setExecutor(new StorageCommand(this));
+        getCommand("sibstar").setExecutor(new StarCommand(this));
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, AUTOSAVE_TASK, 1L, Constants.AUTOSAVE_PERIOD * 20L);
     }

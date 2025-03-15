@@ -16,14 +16,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
-//todo : 新增指令，允许查看/设置玩家已挖了多少xxx方块
 @Getter
-public class StorageCommand extends SubCommand {
-    private static final String KEY = "storage";
+public class StarCommand extends SubCommand {
+    private static final String KEY = "star";
     @Nonnull
     private final InfiniteBlocks plugin;
 
-    public StorageCommand(@Nonnull InfiniteBlocks plugin) {
+    public StarCommand(@Nonnull InfiniteBlocks plugin) {
         this.plugin = plugin;
     }
 
@@ -40,19 +39,6 @@ public class StorageCommand extends SubCommand {
             return false;
         }
 
-        if (args.length < 1) {
-            player.sendMessage("你必须输入一个数量才能执行这个指令");
-            return false;
-        }
-
-        int amount;
-        try {
-            amount = Integer.parseInt(args[0]);
-        } catch (NumberFormatException e) {
-            commandSender.sendMessage("输入的数量不是一个数字");
-            return false;
-        }
-
         ItemStack holdingItem = player.getInventory().getItemInMainHand();
         if (holdingItem == null || holdingItem.getType() == Material.AIR) {
             player.sendMessage("你必须持有物品才能执行这个指令");
@@ -62,7 +48,7 @@ public class StorageCommand extends SubCommand {
             player.sendMessage("你必须持有方块才能执行这个指令");
         }
 
-        player.getInventory().addItem(StoredUtils.createCombined(holdingItem, amount));
+        player.getInventory().addItem(StoredUtils.createStar(holdingItem));
 
         return true;
     }

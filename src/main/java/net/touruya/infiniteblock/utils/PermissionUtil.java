@@ -20,6 +20,6 @@ public class PermissionUtil {
     }
 
     public static boolean hasPermission(@Nonnull CommandSender sender, @Nonnull SubCommand subCommand) {
-        return hasPermission(sender, "sfworldedit.command." + subCommand.getKey().toLowerCase());
+        return hasPermission(sender, "slimefuninfiniteblock.command." + subCommand.getKey().toLowerCase());
     }
 }

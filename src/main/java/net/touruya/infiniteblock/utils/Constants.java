@@ -14,8 +14,10 @@ public class Constants {
     //</editor-fold>
 
     //<editor-fold desc="Permissions">
-    public static final String PERMISSION_ADMIN = "infiniteblock.admin";
-    public static final String PERMISSION_COMMAND_ADMIN = "infiniteblock.command.admin";
+    public static final String PERMISSION_ADMIN = "slimefuninfiniteblock.admin";
+    public static final String PERMISSION_COMMAND_ADMIN = "slimefuninfiniteblock.command.admin";
+    public static final String PERMISSION_COMMAND_STORAGE = "slimefuninfiniteblock.command.storage";
+    public static final String PERMISSION_COMMAND_STAR = "slimefuninfiniteblock.command.star";
     //</editor-fold>
 
     //<editor-fold desc="Symbols">

@@ -15,6 +15,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.touruya.infiniteblock.api.stored.Stored;
+import net.touruya.infiniteblock.utils.BlockMenuUtil;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -156,8 +157,12 @@ public class ItemFountainBalancer extends AContainer {
         }
 
         int beforeAmount = innerItem.getAmount();
-        menu.pushItem(innerItem, OUTPUT_SLOTS);
-        int afterAmount = innerItem.getAmount();
+        ItemStack left = BlockMenuUtil.pushItem(menu, innerItem, OUTPUT_SLOTS);
+        int afterAmount = left == null? 0 : left.getAmount();
+        if (beforeAmount == afterAmount) {
+            feedback(menu, "输出槽已满", false);
+            return false;
+        }
 
         boolean hasStar = false;
         ItemStack star = menu.getItemInSlot(STAR_SLOT); // optional
@@ -170,8 +175,8 @@ public class ItemFountainBalancer extends AContainer {
             }
         }
 
-        if (beforeAmount != afterAmount && !CombinedBlock.isInfinity(combined)) {
-            CombinedBlock.writePDCToCombined(combined, combinedStored, hasStar ? afterAmount : beforeAmount - 1);
+        if (!CombinedBlock.isInfinity(combined)) {
+            CombinedBlock.writePDCToCombined(combined, combinedStored, hasStar ? beforeAmount - 1 : afterAmount);
             if (menu.hasViewer()) {
                 CombinedBlock.updateLoreForCombined(combined);
             }

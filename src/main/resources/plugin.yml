@@ -12,14 +12,20 @@ commands:
   sibstorage:
     aliases:
       - slimefuninfiniteblockstorage
+  sibstar:
+    aliases:
+      - slimefuninfiniteblockstar
 
 permissions:
-  slimefuninfiniteblocks.admin:
+  slimefuninfiniteblock.admin:
     description: Allows you to use all SFWorldedit commands
     default: op
-  slimefuninfiniteblocks.command.admin:
+  slimefuninfiniteblock.command.admin:
     description: Allows you to use all the SFWorldedit commands
     default: op
-  slimefuninfiniteblocks.command.storage:
+  slimefuninfiniteblock.command.storage:
     description: Allows you to use the /sibstorage command
+    default: op
+  slifefuninfiniteblock.command.star:
+    description: Allows you to use the /sibstar command
     default: op

@@ -5,11 +5,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
 import net.touruya.infiniteblock.api.stored.Stored;
-import net.touruya.infiniteblock.core.commands.StorageCommand;
 import net.touruya.infiniteblock.core.managers.PlayerDataManager;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import net.touruya.infiniteblock.implementation.items.InfiniteStar;
 import net.touruya.infiniteblock.utils.Constants;
+import net.touruya.infiniteblock.utils.StoredUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -75,7 +75,7 @@ public class StarListener implements Listener {
     }
 
     private void giveStar(@NotNull Player player, @NotNull Material material, int amount) {
-        Stored stored = StorageCommand.getStored(new ItemStack(material));
+        Stored stored = StoredUtils.getStored(new ItemStack(material));
         if (stored == null) {
             return;
         }
@@ -83,7 +83,7 @@ public class StarListener implements Listener {
     }
 
     private void giveStar(@NotNull Player player, @NotNull SlimefunItem slimefunItem, int amount) {
-        Stored stored = StorageCommand.getStored(slimefunItem.getItem());
+        Stored stored = StoredUtils.getStored(slimefunItem.getItem());
         if (stored == null) {
             return;
         }

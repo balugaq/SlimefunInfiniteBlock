@@ -10,13 +10,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.touruya.infiniteblock.api.stored.Stored;
-import net.touruya.infiniteblock.core.commands.StorageCommand;
+import net.touruya.infiniteblock.utils.StackUtils;
+import net.touruya.infiniteblock.utils.StoredUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -159,7 +159,7 @@ public class Combiner extends AContainer {
                     }
                 }
             } else {
-                if (!SlimefunUtils.isItemSimilar(innerItem, itemStack, true, false)) {
+                if (!StackUtils.itemsMatch(innerItem, itemStack, true, false)) {
                     isAllSimilar = false;
                     break;
                 }
@@ -205,7 +205,7 @@ public class Combiner extends AContainer {
         }
 
         // push item
-        final ItemStack itemStack = StorageCommand.createCombined(innerItem, totalAmount);
+        final ItemStack itemStack = StoredUtils.createCombined(innerItem, totalAmount);
 
         menu.pushItem(itemStack, OUTPUT_SLOT);
         feedback(menu, "工作中", true);
