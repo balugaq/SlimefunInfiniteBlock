@@ -12,15 +12,15 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.ChatColor;
 import net.touruya.infiniteblock.api.stored.SlimefunStored;
 import net.touruya.infiniteblock.api.stored.Stored;
-import net.touruya.infiniteblock.api.stored.VanillaStored;
 import net.touruya.infiniteblock.utils.Constants;
+import net.touruya.infiniteblock.utils.StoredUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public class CombinedBlock extends SlimefunItem {
     private static CombinedBlock instance;
@@ -52,7 +51,7 @@ public class CombinedBlock extends SlimefunItem {
     public static @NotNull ItemStack createCombined(@NotNull Stored stored, long amount) {
         ItemStack clone = new CustomItemStack(stored.getItemStack().clone(), name, lore);
         writePDCToCombined(clone, stored, amount);
-        updateLoreForCombined(clone);
+        StoredUtils.updateLoreForCombined(clone);
 
         return clone;
     }
@@ -65,57 +64,8 @@ public class CombinedBlock extends SlimefunItem {
         itemStack.setItemMeta(meta);
     }
 
-    public static @Nullable Stored getStoredFromCombined(@NotNull ItemStack combined) {
-        ItemMeta meta = combined.getItemMeta();
-        String identifier = meta.getPersistentDataContainer().getOrDefault(Constants.STORED_KEY, PersistentDataType.STRING, "");
-        Stored stored;
-        stored = VanillaStored.loadFromIdentifier(identifier);
-        if (stored == null) {
-            stored = SlimefunStored.loadFromIdentifier(identifier);
-        }
-
-        return stored;
-    }
-
-    public static long getStoredAmountFromCombined(@NotNull ItemStack itemStack) {
-        ItemMeta meta = itemStack.getItemMeta();
-        return meta.getPersistentDataContainer().getOrDefault(Constants.STORED_AMOUNT_KEY, PersistentDataType.LONG, 0L);
-    }
-
-    public static void updateLoreForCombined(@NotNull ItemStack itemStack) {
-        ItemMeta meta = itemStack.getItemMeta();
-        List<String> lore = meta.getLore();
-        if (lore == null) {
-            return;
-        }
-
-        if (lore.size() < 2) {
-            return;
-        }
-
-        if (isInfinity(itemStack)) {
-            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6已存储: " + getStoredFromCombined(itemStack).getName() + "x " + Constants.INFINITY_STRING));
-        } else {
-            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6已存储: " + getStoredFromCombined(itemStack).getName() + "x " + getStoredAmountFromCombined(itemStack)));
-        }
-        meta.setLore(lore);
-        itemStack.setItemMeta(meta);
-    }
-
-    public static void updateActionBarForPlayer(@NotNull Player player, @NotNull Stored stored, long amount) {
-        player.sendActionBar(Component.text("剩余: " + stored.getName() + "x " + (isInfinity(amount) ? Constants.INFINITY_STRING : amount)));
-    }
-
-    public static boolean isInfinity(@NotNull ItemStack itemStack) {
-        return getStoredAmountFromCombined(itemStack) >= Constants.INFINITY_THRESHOLD;
-    }
-
-    public static boolean isInfinity(long amount) {
-        return amount >= Constants.INFINITY_THRESHOLD;
-    }
-
     public void use(@NotNull Player player, @NotNull ItemStack combined, @NotNull Location location) {
-        Stored stored = getStoredFromCombined(combined);
+        Stored stored = StoredUtils.getStoredFromCombined(combined);
         if (stored == null) {
             return;
         }
@@ -126,11 +76,12 @@ public class CombinedBlock extends SlimefunItem {
         }
 
         placeBlock(player, combined, stored, location);
-        updateLoreForCombined(combined);
+        StoredUtils.updateLoreForCombined(combined);
+        generateParticle(location);
     }
 
     public void placeBlock(@NotNull Player player, @NotNull ItemStack combined, @NotNull Stored stored, @NotNull Location location) {
-        final long currentAmount = getStoredAmountFromCombined(combined);
+        final long currentAmount = StoredUtils.getStoredAmountFromCombined(combined);
         if (currentAmount <= 0) {
             player.sendMessage("融合方块已用完");
             return;
@@ -153,14 +104,25 @@ public class CombinedBlock extends SlimefunItem {
         }
 
         long leftAmount = currentAmount;
-        if (!isInfinity(combined)) {
+        if (!StoredUtils.isInfinity(combined)) {
             leftAmount -= 1;
             writePDCToCombined(combined, stored, leftAmount);
         }
 
         if (PaperLib.isPaper()) {
-            updateActionBarForPlayer(player, stored, leftAmount);
+            StoredUtils.updateActionBarForPlayer(player, stored, leftAmount);
         }
+    }
+
+    public static void generateParticle(Location location) {
+        // /particle minecraft:firework ~ ~0.5 ~ 0 0 0 0.1 30
+        location.getWorld().spawnParticle(
+                Particle.FIREWORKS_SPARK,
+                location.clone().add(0.5, 0.5, 0.5),
+                10,
+                0, 0, 0,
+                0.1
+        );
     }
 
     @Data

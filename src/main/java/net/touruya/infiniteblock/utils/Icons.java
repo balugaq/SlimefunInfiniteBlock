@@ -7,18 +7,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class Icons {
     public static final SlimefunItemStack COMBINER = new SlimefunItemStack(
-            "BLOCK_OPERATE_MACHINE",
+            "SIB_BLOCK_OPERATE_MACHINE",
             Material.CRAFTING_TABLE,
-            "&6方块操作台",
+            "&6方块融合台",
             "&e将方块融合为融合方块",
-            "&e将 100 万个方块转换为无限使用的方块",
-            "&7需要电力运行"
-    );
-
-    public static final ItemStack BREAK_BLOCK = new CustomItemStack(
-            Material.DIAMOND_PICKAXE,
-            "&c破坏方块",
-            "&7通过破坏方块获得"
+            "&e需要电力运行"
     );
 
     public static final SlimefunItemStack COMBINED_BLOCK = new SlimefunItemStack(
@@ -37,6 +30,13 @@ public class Icons {
             "&6通过挖掘方块获得"
     );
 
+    public static final SlimefunItemStack STAR_OPERATOR = new SlimefunItemStack(
+            "SIB_STAR_OPERATOR",
+            Material.CARTOGRAPHY_TABLE,
+            "&6操作台",
+            "&e用于制作无限融合方块"
+    );
+
     public static final SlimefunItemStack ITEM_FOUNTAIN_BALANCER = new SlimefunItemStack(
             "SIB_ITEM_FOUNTAIN_BALANCER",
             Material.IRON_BLOCK,
@@ -48,4 +48,11 @@ public class Icons {
     public static final ItemStack NESTED_GROUP = new CustomItemStack(Material.CHEST, "&6无限方块");
     public static final ItemStack MACHINES_GROUP = new CustomItemStack(Material.DISPENSER, "&6无限方块 - 机器");
     public static final ItemStack MATERIALS_GROUP = new CustomItemStack(Material.NETHER_STAR, "&6无限方块 - 材料");
+
+    public static final ItemStack BREAK_BLOCK = new CustomItemStack(
+            Material.DIAMOND_PICKAXE,
+            "&c破坏方块",
+            "&7通过破坏方块获得"
+    );
+
 }

@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class InfiniteStar extends SlimefunItem implements NotPlaceable {
+public class InfiniteStar extends SlimefunItem {
     private static InfiniteStar instance;
     private static String name;
     private static String[] lore;
@@ -33,15 +33,10 @@ public class InfiniteStar extends SlimefunItem implements NotPlaceable {
         instance = this;
         name = instance.getItemName();
         lore = instance.getItem().getItemMeta().getLore().toArray(new String[0]);
-        addItemHandler(new BlockPlaceHandler(false) {
-            @Override
-            public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {
-            }
-        });
     }
 
     public static @NotNull ItemStack createStar(@NotNull Stored stored) {
-        ItemStack clone = new CustomItemStack(stored.getItemStack().clone(), name, lore);
+        ItemStack clone = instance.getItem().clone();
         writePDCToStar(clone, stored);
         updateLoreForStar(clone);
 

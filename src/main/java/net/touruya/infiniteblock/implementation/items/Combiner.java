@@ -3,7 +3,6 @@ package net.touruya.infiniteblock.implementation.items;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -14,7 +13,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import net.touruya.infiniteblock.api.stored.Stored;
 import net.touruya.infiniteblock.utils.StackUtils;
 import net.touruya.infiniteblock.utils.StoredUtils;
 import org.bukkit.Material;
@@ -74,22 +72,6 @@ public class Combiner extends AContainer {
         };
     }
 
-    public static boolean isCombinedBlock(ItemStack itemStack) {
-        return SlimefunItem.getByItem(itemStack) instanceof CombinedBlock;
-    }
-
-    public static @NotNull ItemStack getUnpackedItem(@NotNull ItemStack combined) {
-        Stored stored = CombinedBlock.getStoredFromCombined(combined);
-        if (stored == null) {
-            return new ItemStack(Material.AIR);
-        }
-        long amount = CombinedBlock.getStoredAmountFromCombined(combined);
-        if (amount <= 0) {
-            return new ItemStack(Material.AIR);
-        }
-        return new CustomItemStack(stored.getItemStack(), (int) amount);
-    }
-
     public static void feedback(@NotNull BlockMenu menu, @NotNull String message, boolean success) {
         if (menu.hasViewer()) {
             menu.replaceExistingItem(PROGRESS_SLOT, new CustomItemStack(
@@ -137,9 +119,9 @@ public class Combiner extends AContainer {
             }
 
             int combinedAmount = 1;
-            if (isCombinedBlock(itemStack)) {
+            if (StoredUtils.isCombinedBlock(itemStack)) {
                 combinedAmount = itemStack.getAmount();
-                ItemStack unpacked = getUnpackedItem(itemStack);
+                ItemStack unpacked = StoredUtils.getUnpackedItem(itemStack);
                 if (unpacked.getType() == Material.AIR) {
                     continue;
                 } else {
@@ -148,10 +130,10 @@ public class Combiner extends AContainer {
             }
 
             if (innerItem == null) {
-                if (!isCombinedBlock(itemStack)) {
+                if (!StoredUtils.isCombinedBlock(itemStack)) {
                     innerItem = itemStack;
                 } else {
-                    ItemStack unpacked = getUnpackedItem(itemStack);
+                    ItemStack unpacked = StoredUtils.getUnpackedItem(itemStack);
                     if (unpacked.getType() == Material.AIR) {
                         continue;
                     } else {
@@ -188,9 +170,21 @@ public class Combiner extends AContainer {
             return false;
         }
 
+        int additionAmount = 0;
         final ItemStack exisitingOutput = menu.getItemInSlot(OUTPUT_SLOT);
         if (exisitingOutput != null && exisitingOutput.getType() != Material.AIR) {
-            feedback(menu, "输出槽已有物品", false);
+            ItemStack unpackedExisting = StoredUtils.getUnpackedItem(exisitingOutput);
+            if (!StackUtils.itemsMatch(innerItem, unpackedExisting, true, false)) {
+                feedback(menu, "输出槽已有物品", false);
+                return false;
+            } else {
+                additionAmount = unpackedExisting.getAmount() * exisitingOutput.getAmount();
+                menu.consumeItem(OUTPUT_SLOT, 64);
+            }
+        }
+
+        if (totalAmount > Integer.MAX_VALUE) {
+            feedback(menu, "输入物品数量过多", false);
             return false;
         }
 
@@ -199,13 +193,8 @@ public class Combiner extends AContainer {
             menu.replaceExistingItem(inputSlot, new ItemStack(Material.AIR));
         }
 
-        if (totalAmount > Integer.MAX_VALUE) {
-            feedback(menu, "输入物品数量过多", false);
-            return false;
-        }
-
         // push item
-        final ItemStack itemStack = StoredUtils.createCombined(innerItem, totalAmount);
+        final ItemStack itemStack = StoredUtils.createCombined(innerItem, totalAmount + additionAmount);
 
         menu.pushItem(itemStack, OUTPUT_SLOT);
         feedback(menu, "工作中", true);

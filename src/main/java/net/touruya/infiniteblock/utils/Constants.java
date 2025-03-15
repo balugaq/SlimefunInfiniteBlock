@@ -46,7 +46,7 @@ public class Constants {
     //</editor-fold>
 
     //<editor-fold desc="Config">
-    public static final int INFINITY_THRESHOLD = ConfigManager.instance().getInfinityThreshold();
+    public static final long INFINITY_THRESHOLD = ConfigManager.instance().getInfinityThreshold();
     public static final int AUTOSAVE_PERIOD = ConfigManager.instance().getAutosavePeriod();
     public static final int STAR_THRESHOLD = ConfigManager.instance().getStarThreshold();
     //</editor-fold>

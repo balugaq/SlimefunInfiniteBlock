@@ -65,8 +65,8 @@ public class ConfigManager {
         }
     }
 
-    public int getInfinityThreshold() {
-        return plugin.getConfig().getInt("infinity-threshold", 1_000_000);
+    public long getInfinityThreshold() {
+        return plugin.getConfig().getLong("infinity-threshold", Long.MAX_VALUE / 2);
     }
 
     public int getAutosavePeriod() {

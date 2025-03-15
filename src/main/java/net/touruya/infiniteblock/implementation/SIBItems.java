@@ -7,6 +7,7 @@ import net.touruya.infiniteblock.implementation.items.CombinedBlock;
 import net.touruya.infiniteblock.implementation.items.Combiner;
 import net.touruya.infiniteblock.implementation.items.InfiniteStar;
 import net.touruya.infiniteblock.implementation.items.ItemFountainBalancer;
+import net.touruya.infiniteblock.implementation.items.StarOperator;
 import net.touruya.infiniteblock.utils.Icons;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +17,7 @@ public class SIBItems {
     public static Combiner COMBINER;
     public static CombinedBlock COMBINED_BLOCK;
     public static InfiniteStar INFINITE_STAR;
+    public static StarOperator STAR_OPERATOR;
     public static ItemFountainBalancer ITEM_FOUNTAIN_BALANCER;
 
     public static void setup(@NotNull InfiniteBlocks plugin) {
@@ -44,6 +46,17 @@ public class SIBItems {
                 new ItemStack[0]
         );
 
+        STAR_OPERATOR = new StarOperator(
+                SIBGroups.MACHINES_GROUP,
+                Icons.STAR_OPERATOR,
+                RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[]{
+                        SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR,
+                        SlimefunItems.CARBONADO, Icons.ITEM_FOUNTAIN_BALANCER, SlimefunItems.CARBONADO,
+                        SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR
+                }
+        );
+
         ITEM_FOUNTAIN_BALANCER = new ItemFountainBalancer(
                 SIBGroups.MACHINES_GROUP,
                 Icons.ITEM_FOUNTAIN_BALANCER,
@@ -58,6 +71,7 @@ public class SIBItems {
         COMBINER.register(plugin);
         COMBINED_BLOCK.register(plugin);
         INFINITE_STAR.register(plugin);
+        STAR_OPERATOR.register(plugin);
         ITEM_FOUNTAIN_BALANCER.register(plugin);
     }
 }

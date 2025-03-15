@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.Getter;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import net.touruya.infiniteblock.implementation.items.CombinedBlock;
+import net.touruya.infiniteblock.utils.StoredUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -28,12 +29,12 @@ public class BlockListener implements Listener {
     public void onCombinedBlockPlace(@NotNull BlockPlaceEvent e) {
         Player player = e.getPlayer();
         Location location = e.getBlockPlaced().getLocation();
-        final ItemStack itemStack = e.getItemInHand();
+        final ItemStack itemStack = e.getItemInHand().clone();
         SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
 
         if (sfItem instanceof CombinedBlock combinedBlock) {
             if (StorageCacheUtils.getSfItem(location) == null) {
-                final long currentAmount = CombinedBlock.getStoredAmountFromCombined(itemStack);
+                final long currentAmount = StoredUtils.getStoredAmountFromCombined(itemStack);
                 if (currentAmount <= 0) {
                     player.sendMessage("融合方块已用完");
                     e.setCancelled(true);
