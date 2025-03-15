@@ -1,15 +1,51 @@
 package net.touruya.infiniteblock.utils;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public class Icons {
-    public static final SlimefunItemStack COMBINER =  new SlimefunItemStack(
+    public static final SlimefunItemStack COMBINER = new SlimefunItemStack(
             "BLOCK_OPERATE_MACHINE",
             Material.CRAFTING_TABLE,
             "&6方块操作台",
             "&e将方块融合为融合方块",
             "&e将 100 万个方块转换为无限使用的方块",
-            "&7需要电力运行" // todo: 暂时没做
+            "&7需要电力运行"
     );
+
+    public static final ItemStack BREAK_BLOCK = new CustomItemStack(
+            Material.DIAMOND_PICKAXE,
+            "&c破坏方块",
+            "&7通过破坏方块获得"
+    );
+
+    public static final SlimefunItemStack COMBINED_BLOCK = new SlimefunItemStack(
+            "SIB_COMBINED_BLOCK",
+            Material.BEDROCK,
+            "&6融合方块",
+            "&e将大量方块融合为 1 个方块",
+            "&e已存储: "
+    );
+
+    public static final SlimefunItemStack INFINITE_STAR = new SlimefunItemStack(
+            "SIB_INFINITE_STAR",
+            Material.NETHER_STAR,
+            "&6无限之星",
+            "&6用于在物质爆发衡量仪中产出物质",
+            "&6通过挖掘方块获得"
+    );
+
+    public static final SlimefunItemStack ITEM_FOUNTAIN_BALANCER = new SlimefunItemStack(
+            "SIB_ITEM_FOUNTAIN_BALANCER",
+            Material.IRON_BLOCK,
+            "&6物品爆发平衡器",
+            "&e产出物品",
+            "&e需要电力运行"
+    );
+
+    public static final ItemStack NESTED_GROUP = new CustomItemStack(Material.CHEST, "&6无限方块");
+    public static final ItemStack MACHINES_GROUP = new CustomItemStack(Material.DISPENSER, "&6无限方块 - 机器");
+    public static final ItemStack MATERIALS_GROUP = new CustomItemStack(Material.NETHER_STAR, "&6无限方块 - 材料");
 }

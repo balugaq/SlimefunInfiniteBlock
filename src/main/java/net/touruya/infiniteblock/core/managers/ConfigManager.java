@@ -1,6 +1,7 @@
 package net.touruya.infiniteblock.core.managers;
 
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
+import net.touruya.infiniteblock.utils.Constants;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -24,7 +25,7 @@ public class ConfigManager {
     }
 
     public static ConfigManager instance() {
-        return InfiniteBlocks.getInstance().getConfigManager();
+        return Constants.PLUGIN.getConfigManager();
     }
 
     private void setupDefaultConfig() {
@@ -67,8 +68,13 @@ public class ConfigManager {
     public int getInfinityThreshold() {
         return plugin.getConfig().getInt("infinity-threshold", 1_000_000);
     }
+
     public int getAutosavePeriod() {
         return plugin.getConfig().getInt("autosave-period", 300);
+    }
+
+    public int getStarThreshold() {
+        return plugin.getConfig().getInt("star-threshold", 100_000);
     }
 
     public void setConfig(@Nonnull String path, Object value) {

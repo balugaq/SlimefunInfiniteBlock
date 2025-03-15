@@ -2,6 +2,7 @@ package net.touruya.infiniteblock.core.managers;
 
 import lombok.Getter;
 import net.touruya.infiniteblock.core.listeners.BlockListener;
+import net.touruya.infiniteblock.core.listeners.StarListener;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -21,6 +22,7 @@ public class ListenerManager {
 
     public void setup() {
         listeners.add(new BlockListener(plugin));
+        listeners.add(new StarListener(plugin));
         registerListeners();
     }
 

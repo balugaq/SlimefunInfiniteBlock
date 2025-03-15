@@ -2,7 +2,6 @@ package net.touruya.infiniteblock.api.stored;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import lombok.Getter;
-import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

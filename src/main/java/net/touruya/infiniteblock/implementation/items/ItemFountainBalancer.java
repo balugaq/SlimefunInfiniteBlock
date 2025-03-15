@@ -10,13 +10,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.touruya.infiniteblock.api.stored.Stored;
-import net.touruya.infiniteblock.core.commands.StorageCommand;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -24,25 +22,25 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
-public class Combiner extends AContainer {
+public class ItemFountainBalancer extends AContainer {
     public static final ItemStack BACKGROUND = new CustomItemStack(Material.GRAY_STAINED_GLASS_PANE, " ", " ");
     public static final int[] BACKGROUND_SLOTS = {
-            0, 1, 2, 3, 5, 6, 7, 8,
+            0, 2, 3, 5, 6, 8,
             45, 46, 47, 48, 50, 51, 52, 53,
     };
-
-    public static final int[] INPUT_SLOTS = {
+    public static final int PROGRESS_SLOT = 4;
+    public static final int[] OUTPUT_SLOTS = {
             9, 10, 11, 12, 13, 14, 15, 16, 17,
             18, 19, 20, 21, 22, 23, 24, 25, 26,
             27, 28, 29, 30, 31, 32, 33, 34, 35,
             36, 37, 38, 39, 40, 41, 42, 43, 44,
     };
+    public static final int COMBINED_SLOT = 1;
+    public static final int STAR_SLOT = 7;
 
-    public static final int PROGRESS_SLOT = 4;
-    public static final int OUTPUT_SLOT = 49;
-
-    public Combiner(@NotNull ItemGroup category, @NotNull SlimefunItemStack item, @NotNull RecipeType recipeType, ItemStack @NotNull [] recipe) {
+    public ItemFountainBalancer(@NotNull ItemGroup category, @NotNull SlimefunItemStack item, @NotNull RecipeType recipeType, ItemStack @NotNull [] recipe) {
         super(category, item, recipeType, recipe);
         new BlockMenuPreset(this.getId(), getItemName()) {
 
@@ -66,9 +64,9 @@ public class Combiner extends AContainer {
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow itemTransportFlow) {
                 if (itemTransportFlow == ItemTransportFlow.INSERT) {
-                    return INPUT_SLOTS;
+                    return OUTPUT_SLOTS;
                 } else {
-                    return new int[]{OUTPUT_SLOT};
+                    return new int[0];
                 }
             }
         };
@@ -78,7 +76,7 @@ public class Combiner extends AContainer {
         return SlimefunItem.getByItem(itemStack) instanceof CombinedBlock;
     }
 
-    public static @NotNull ItemStack getUnpackedItem(@NotNull ItemStack combined) {
+    public static @NotNull ItemStack getUnpackedItemFromCombined(@NotNull ItemStack combined) {
         Stored stored = CombinedBlock.getStoredFromCombined(combined);
         if (stored == null) {
             return new ItemStack(Material.AIR);
@@ -88,6 +86,18 @@ public class Combiner extends AContainer {
             return new ItemStack(Material.AIR);
         }
         return new CustomItemStack(stored.getItemStack(), (int) amount);
+    }
+
+    public static boolean isStar(ItemStack itemStack) {
+        return SlimefunItem.getByItem(itemStack) instanceof InfiniteStar;
+    }
+
+    public static @NotNull ItemStack getUnpackedItemFromStar(@NotNull ItemStack star) {
+        Stored stored = InfiniteStar.getStoredFromStar(star);
+        if (stored == null) {
+            return new ItemStack(Material.AIR);
+        }
+        return new CustomItemStack(stored.getItemStack(), 1);
     }
 
     public static void feedback(@NotNull BlockMenu menu, @NotNull String message, boolean success) {
@@ -127,87 +137,46 @@ public class Combiner extends AContainer {
             return false;
         }
 
-        ItemStack innerItem = null;
-        long totalAmount = 0;
-        boolean isAllSimilar = true;
-        for (int inputSlot : INPUT_SLOTS) {
-            ItemStack itemStack = menu.getItemInSlot(inputSlot);
-            if (itemStack == null || itemStack.getType() == Material.AIR) {
-                continue;
-            }
+        ItemStack combined = menu.getItemInSlot(COMBINED_SLOT);
+        if (combined == null || combined.getType() == Material.AIR) {
+            feedback(menu, "没有放入融合方块", false);
+            return false;
+        }
 
-            int combinedAmount = 1;
-            if (isCombinedBlock(itemStack)) {
-                combinedAmount = itemStack.getAmount();
-                ItemStack unpacked = getUnpackedItem(itemStack);
-                if (unpacked.getType() == Material.AIR) {
-                    continue;
-                } else {
-                    itemStack = unpacked;
+        Stored combinedStored = CombinedBlock.getStoredFromCombined(combined);
+        if (combinedStored == null) {
+            feedback(menu, "融合方块已损坏", false);
+            return false;
+        }
+
+        ItemStack innerItem = getUnpackedItemFromCombined(combined);
+        if (innerItem.getType() == Material.AIR) {
+            feedback(menu, "融合方块内没有物品", false);
+            return false;
+        }
+
+        int beforeAmount = innerItem.getAmount();
+        menu.pushItem(innerItem, OUTPUT_SLOTS);
+        int afterAmount = innerItem.getAmount();
+
+        boolean hasStar = false;
+        ItemStack star = menu.getItemInSlot(STAR_SLOT); // optional
+        if (star != null && star.getType() != Material.AIR) {
+            Stored starStored = InfiniteStar.getStoredFromStar(star);
+            if (starStored != null) {
+                if (Objects.equals(combinedStored.getIdentifier(), starStored.getIdentifier())) {
+                    hasStar = true;
                 }
             }
+        }
 
-            if (innerItem == null) {
-                if (!isCombinedBlock(itemStack)) {
-                    innerItem = itemStack;
-                } else {
-                    ItemStack unpacked = getUnpackedItem(itemStack);
-                    if (unpacked.getType() == Material.AIR) {
-                        continue;
-                    } else {
-                        innerItem = unpacked;
-                    }
-                }
-            } else {
-                if (!SlimefunUtils.isItemSimilar(innerItem, itemStack, true, false)) {
-                    isAllSimilar = false;
-                    break;
-                }
+        if (beforeAmount != afterAmount && !CombinedBlock.isInfinity(combined)) {
+            CombinedBlock.writePDCToCombined(combined, combinedStored, hasStar ? afterAmount : beforeAmount - 1);
+            if (menu.hasViewer()) {
+                CombinedBlock.updateLoreForCombined(combined);
             }
-
-            totalAmount += (long) itemStack.getAmount() * combinedAmount;
         }
 
-        if (innerItem == null) {
-            feedback(menu, "请确保至少有一个输入物品", false);
-            return false;
-        }
-
-        if (!isAllSimilar) {
-            feedback(menu, "请确保所有输入物品都相同", false);
-            return false;
-        }
-
-        if (innerItem.getType() == Material.AIR || !innerItem.getType().isBlock()) {
-            feedback(menu, "请确保输入物品为方块", false);
-            return false;
-        }
-
-        if (totalAmount <= 0) {
-            feedback(menu, "请确保输入物品数量大于0", false);
-            return false;
-        }
-
-        final ItemStack exisitingOutput = menu.getItemInSlot(OUTPUT_SLOT);
-        if (exisitingOutput != null && exisitingOutput.getType() != Material.AIR) {
-            feedback(menu, "输出槽已有物品", false);
-            return false;
-        }
-
-        // consume items
-        for (final int inputSlot : INPUT_SLOTS) {
-            menu.replaceExistingItem(inputSlot, new ItemStack(Material.AIR));
-        }
-
-        if (totalAmount > Integer.MAX_VALUE) {
-            feedback(menu, "输入物品数量过多", false);
-            return false;
-        }
-
-        // push item
-        final ItemStack itemStack = StorageCommand.createCombined(innerItem, totalAmount);
-
-        menu.pushItem(itemStack, OUTPUT_SLOT);
         feedback(menu, "工作中", true);
 
         return true;

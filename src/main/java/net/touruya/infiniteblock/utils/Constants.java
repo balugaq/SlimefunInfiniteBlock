@@ -1,13 +1,51 @@
 package net.touruya.infiniteblock.utils;
 
 import lombok.experimental.UtilityClass;
+import net.touruya.infiniteblock.core.managers.ConfigManager;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
+import org.bukkit.NamespacedKey;
 
 import java.io.File;
 
 @UtilityClass
 public class Constants {
+    //<editor-fold desc="Plugin">
+    public static final InfiniteBlocks PLUGIN = InfiniteBlocks.getInstance();
+    //</editor-fold>
+
+    //<editor-fold desc="Permissions">
     public static final String PERMISSION_ADMIN = "infiniteblock.admin";
     public static final String PERMISSION_COMMAND_ADMIN = "infiniteblock.command.admin";
-    public static final File DATA_FILE = new File(InfiniteBlocks.getInstance().getDataFolder(), "data/data.yml");
+    //</editor-fold>
+
+    //<editor-fold desc="Symbols">
+    public static final String INFINITY_STRING = "∞";
+    //</editor-fold>
+
+    //<editor-fold desc="Group keys">
+    public static final NamespacedKey MATERIALS = new NamespacedKey(PLUGIN, "materials");
+    public static final NamespacedKey MACHINES = new NamespacedKey(PLUGIN, "machines");
+    public static final NamespacedKey INFINITE_GROUP = new NamespacedKey(PLUGIN, "infinite_blocks");
+    //</editor-fold>
+
+    //<editor-fold desc="Recipe type keys">
+    public static final NamespacedKey COMBINER = new NamespacedKey(PLUGIN, "combiner");
+    public static final NamespacedKey BREAK_BLOCK = new NamespacedKey(PLUGIN, "break_block");
+    //</editor-fold>
+
+    //<editor-fold desc="Item keys">
+    public static final NamespacedKey IDENTIFIER_KEY = new NamespacedKey(PLUGIN, "identifier");
+    public static final NamespacedKey STORED_KEY = new NamespacedKey(PLUGIN, "stored");
+    public static final NamespacedKey STORED_AMOUNT_KEY = new NamespacedKey(PLUGIN, "stored_amount");
+    //</editor-fold>
+
+    //<editor-fold desc="Files">
+    public static final File DATA_FILE = new File(PLUGIN.getDataFolder(), "data/data.yml");
+    //</editor-fold>
+
+    //<editor-fold desc="Config">
+    public static final int INFINITY_THRESHOLD = ConfigManager.instance().getInfinityThreshold();
+    public static final int AUTOSAVE_PERIOD = ConfigManager.instance().getAutosavePeriod();
+    public static final int STAR_THRESHOLD = ConfigManager.instance().getStarThreshold();
+    //</editor-fold>
 }

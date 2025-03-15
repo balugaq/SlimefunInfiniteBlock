@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import lombok.Getter;
 import net.touruya.infiniteblock.api.objects.SubCommand;
 import net.touruya.infiniteblock.api.stored.SlimefunStored;
+import net.touruya.infiniteblock.api.stored.Stored;
 import net.touruya.infiniteblock.api.stored.VanillaStored;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import net.touruya.infiniteblock.implementation.items.CombinedBlock;
@@ -34,12 +35,21 @@ public class StorageCommand extends SubCommand {
     }
 
     @Nullable
-    public static ItemStack create(@NotNull ItemStack holdingItem, long amount) {
+    public static ItemStack createCombined(@NotNull ItemStack holdingItem, long amount) {
+        Stored stored = getStored(holdingItem);
+        if (stored == null) {
+            return null;
+        }
+        return CombinedBlock.createCombined(stored, amount);
+    }
+
+    @Nullable
+    public static Stored getStored(@NotNull ItemStack holdingItem) {
         SlimefunItem slimefunItem = SlimefunItem.getByItem(holdingItem);
         if (slimefunItem != null) {
-            return CombinedBlock.createCombined(new SlimefunStored(slimefunItem), amount);
+            return new SlimefunStored(slimefunItem);
         } else if (SlimefunUtils.isItemSimilar(holdingItem, new ItemStack(holdingItem.getType()), true, false)) {
-            return CombinedBlock.createCombined(new VanillaStored(holdingItem.getType()), amount);
+            return new VanillaStored(holdingItem.getType());
         } else {
             return null;
         }
@@ -80,7 +90,7 @@ public class StorageCommand extends SubCommand {
             player.sendMessage("你必须持有方块才能执行这个指令");
         }
 
-        player.getInventory().addItem(create(holdingItem, amount));
+        player.getInventory().addItem(createCombined(holdingItem, amount));
 
         return true;
     }
