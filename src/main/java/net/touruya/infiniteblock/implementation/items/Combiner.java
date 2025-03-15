@@ -170,7 +170,7 @@ public class Combiner extends AContainer {
             return false;
         }
 
-        int additionAmount = 0;
+        long additionAmount = 0;
         final ItemStack exisitingOutput = menu.getItemInSlot(OUTPUT_SLOT);
         if (exisitingOutput != null && exisitingOutput.getType() != Material.AIR) {
             ItemStack unpackedExisting = StoredUtils.getUnpackedItem(exisitingOutput);
@@ -178,7 +178,7 @@ public class Combiner extends AContainer {
                 feedback(menu, "输出槽已有物品", false);
                 return false;
             } else {
-                additionAmount = unpackedExisting.getAmount() * exisitingOutput.getAmount();
+                additionAmount = (long) unpackedExisting.getAmount() * exisitingOutput.getAmount();
                 menu.consumeItem(OUTPUT_SLOT, 64);
             }
         }

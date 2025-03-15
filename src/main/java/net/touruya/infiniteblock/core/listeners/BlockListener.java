@@ -38,13 +38,19 @@ public class BlockListener implements Listener {
                 if (currentAmount <= 0) {
                     player.sendMessage("融合方块已用完");
                     e.setCancelled(true);
-                } else {
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                        Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
-                        combinedBlock.use(player, itemStack, location);
-                        player.getInventory().setItem(e.getHand(), itemStack);
-                    }, 1L);
+                    return;
                 }
+                if (itemStack.getAmount() != 1) {
+                    player.sendMessage("你只能手持一个融合方块");
+                    e.setCancelled(true);
+                    return;
+                }
+
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
+                    combinedBlock.use(player, itemStack, location);
+                    player.getInventory().setItem(e.getHand(), itemStack);
+                }, 1L);
             }
         }
     }
