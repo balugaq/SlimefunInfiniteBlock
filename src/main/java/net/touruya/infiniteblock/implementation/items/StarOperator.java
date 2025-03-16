@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -13,6 +14,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.touruya.infiniteblock.utils.Constants;
+import net.touruya.infiniteblock.utils.Icons;
 import net.touruya.infiniteblock.utils.StackUtils;
 import net.touruya.infiniteblock.utils.StoredUtils;
 import org.bukkit.Material;
@@ -22,12 +24,9 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
-public class StarOperator extends SlimefunItem {
-    public static final ItemStack BACKGROUND = new CustomItemStack(Material.GRAY_STAINED_GLASS_PANE, " ", " ");
-    public static final ItemStack INPUT_BORDER = new CustomItemStack(Material.BLUE_STAINED_GLASS_PANE, " ", " ");
-    public static final ItemStack OUTPUT_BORDER = new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE, " ", " ");
-    public static final ItemStack CRAFT = new CustomItemStack(Material.RED_STAINED_GLASS_PANE, "&a合成", " ");
+public class StarOperator extends SlimefunItem implements RecipeDisplayItem {
     public static final int[] BACKGROUND_SLOTS = {
             3, 4, 5, 12, 14, 21, 22, 23,
             27, 28, 29, 33, 34, 35,
@@ -55,15 +54,15 @@ public class StarOperator extends SlimefunItem {
             @Override
             public void init() {
                 for (int i : BACKGROUND_SLOTS) {
-                    addItem(i, BACKGROUND, ChestMenuUtils.getEmptyClickHandler());
+                    addItem(i, Icons.BACKGROUND, ChestMenuUtils.getEmptyClickHandler());
                 }
                 for (int i : INPUT_BORDER_SLOTS) {
-                    addItem(i, INPUT_BORDER, ChestMenuUtils.getEmptyClickHandler());
+                    addItem(i, Icons.INPUT_BORDER, ChestMenuUtils.getEmptyClickHandler());
                 }
                 for (int i : OUTPUT_BORDER_SLOTS) {
-                    addItem(i, OUTPUT_BORDER, ChestMenuUtils.getEmptyClickHandler());
+                    addItem(i, Icons.OUTPUT_BORDER, ChestMenuUtils.getEmptyClickHandler());
                 }
-                addItem(CRAFT_SLOT, CRAFT, ChestMenuUtils.getEmptyClickHandler());
+                addItem(CRAFT_SLOT, Icons.CRAFT, ChestMenuUtils.getEmptyClickHandler());
             }
 
             @Override
@@ -144,5 +143,11 @@ public class StarOperator extends SlimefunItem {
         feedback(menu, "成功", true);
 
         return true;
+    }
+
+    @Override
+    @NotNull
+    public List<ItemStack> getDisplayRecipes() {
+        return Constants.DESCRIPTION_STAR_OPERATOR;
     }
 }

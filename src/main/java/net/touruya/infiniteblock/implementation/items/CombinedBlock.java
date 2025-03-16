@@ -10,8 +10,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import net.touruya.infiniteblock.api.stored.SlimefunStored;
 import net.touruya.infiniteblock.api.stored.Stored;
 import net.touruya.infiniteblock.utils.Constants;
@@ -63,7 +61,7 @@ public class CombinedBlock extends SlimefunItem {
         itemStack.setItemMeta(meta);
     }
 
-    public static void generateParticle(Location location) {
+    public static void generateParticle(@NotNull Location location) {
         // /particle minecraft:firework ~ ~0.5 ~ 0 0 0 0.1 30
         location.getWorld().spawnParticle(
                 Particle.FIREWORKS_SPARK,
@@ -123,12 +121,5 @@ public class CombinedBlock extends SlimefunItem {
         if (PaperLib.isPaper()) {
             StoredUtils.updateActionBarForPlayer(player, stored, leftAmount);
         }
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class Entry {
-        private final @NotNull Location location;
-        private final @NotNull Stored stored;
     }
 }

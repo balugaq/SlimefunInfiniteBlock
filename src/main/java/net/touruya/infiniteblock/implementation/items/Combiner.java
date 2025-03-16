@@ -5,6 +5,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -13,6 +14,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import net.touruya.infiniteblock.utils.Constants;
+import net.touruya.infiniteblock.utils.Icons;
 import net.touruya.infiniteblock.utils.StackUtils;
 import net.touruya.infiniteblock.utils.StoredUtils;
 import org.bukkit.Material;
@@ -22,9 +25,9 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
-public class Combiner extends AContainer {
-    public static final ItemStack BACKGROUND = new CustomItemStack(Material.GRAY_STAINED_GLASS_PANE, " ", " ");
+public class Combiner extends AContainer implements RecipeDisplayItem {
     public static final int[] BACKGROUND_SLOTS = {
             0, 1, 2, 3, 5, 6, 7, 8,
             45, 46, 47, 48, 50, 51, 52, 53,
@@ -47,9 +50,9 @@ public class Combiner extends AContainer {
             @Override
             public void init() {
                 for (int i : BACKGROUND_SLOTS) {
-                    addItem(i, BACKGROUND, ChestMenuUtils.getEmptyClickHandler());
+                    addItem(i, Icons.BACKGROUND, ChestMenuUtils.getEmptyClickHandler());
                 }
-                addItem(PROGRESS_SLOT, BACKGROUND, ChestMenuUtils.getEmptyClickHandler());
+                addItem(PROGRESS_SLOT, Icons.BACKGROUND, ChestMenuUtils.getEmptyClickHandler());
             }
 
             @Override
@@ -94,7 +97,7 @@ public class Combiner extends AContainer {
 
     @Override
     public @NotNull ItemStack getProgressBar() {
-        return BACKGROUND;
+        return Icons.BACKGROUND;
     }
 
     @Override
@@ -179,7 +182,6 @@ public class Combiner extends AContainer {
                 return false;
             } else {
                 additionAmount = (long) unpackedExisting.getAmount() * exisitingOutput.getAmount();
-                menu.consumeItem(OUTPUT_SLOT, 64);
             }
         }
 
@@ -192,6 +194,9 @@ public class Combiner extends AContainer {
         // consume items
         for (final int inputSlot : INPUT_SLOTS) {
             menu.replaceExistingItem(inputSlot, new ItemStack(Material.AIR));
+        }
+        if (exisitingOutput != null && exisitingOutput.getType() != Material.AIR) {
+            exisitingOutput.setAmount(0);
         }
 
         // push item
@@ -216,5 +221,11 @@ public class Combiner extends AContainer {
     @Override
     public int getSpeed() {
         return 1;
+    }
+
+    @Override
+    @NotNull
+    public List<ItemStack> getDisplayRecipes() {
+        return Constants.DESCRIPTION_COMBINER;
     }
 }

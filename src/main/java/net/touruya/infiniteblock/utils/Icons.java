@@ -55,4 +55,34 @@ public class Icons {
             "&7通过破坏方块获得"
     );
 
+    public static final ItemStack BACKGROUND = new CustomItemStack(Material.GRAY_STAINED_GLASS_PANE, " ", " ");
+    public static final ItemStack INPUT_BORDER = new CustomItemStack(Material.BLUE_STAINED_GLASS_PANE, " ", " ");
+    public static final ItemStack OUTPUT_BORDER = new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE, " ", " ");
+    public static final ItemStack CRAFT = new CustomItemStack(Material.RED_STAINED_GLASS_PANE, "&a合成", " ");
+
+    //<editor-fold desc="Description">
+    //<editor-fold desc="Description - Combiner">
+    public static final ItemStack DESCRIPTION_COMBINER_1 = new CustomItemStack(
+            Material.KNOWLEDGE_BOOK,
+            "&6描述",
+            "&e描述"
+    );
+    //</editor-fold>
+
+    //<editor-fold desc="Description - Combined Block">
+    public static final ItemStack DESCRIPTION_ITEM_FOUNTAIN_BALANCER_1 = new CustomItemStack(
+            Material.KNOWLEDGE_BOOK,
+            "&6描述",
+            "&e描述"
+    );
+    //</editor-fold>
+
+    //<editor-fold desc="Description - Star Operator">
+    public static final ItemStack DESCRIPTION_STAR_OPERATOR_1 = new CustomItemStack(
+            Material.KNOWLEDGE_BOOK,
+            "&6描述",
+            "&e描述"
+    );
+    //</editor-fold>
+    //</editor-fold>
 }

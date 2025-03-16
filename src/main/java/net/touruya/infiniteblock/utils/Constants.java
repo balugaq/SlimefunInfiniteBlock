@@ -4,8 +4,10 @@ import lombok.experimental.UtilityClass;
 import net.touruya.infiniteblock.core.managers.ConfigManager;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
+import java.util.List;
 
 @UtilityClass
 public class Constants {
@@ -49,5 +51,19 @@ public class Constants {
     public static final long INFINITY_THRESHOLD = ConfigManager.instance().getInfinityThreshold();
     public static final int AUTOSAVE_PERIOD = ConfigManager.instance().getAutosavePeriod();
     public static final int STAR_THRESHOLD = ConfigManager.instance().getStarThreshold();
+    //</editor-fold>
+
+    //<editor-fold desc="Descriptions">
+    public static final List<ItemStack> DESCRIPTION_COMBINER = List.of(
+            Icons.DESCRIPTION_COMBINER_1
+    );
+
+    public static final List<ItemStack> DESCRIPTION_ITEM_FOUNTAIN_BALANCER = List.of(
+            Icons.DESCRIPTION_ITEM_FOUNTAIN_BALANCER_1
+    );
+
+    public static final List<ItemStack> DESCRIPTION_STAR_OPERATOR = List.of(
+            Icons.DESCRIPTION_STAR_OPERATOR_1
+    );
     //</editor-fold>
 }

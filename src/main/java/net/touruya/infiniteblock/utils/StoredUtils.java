@@ -122,9 +122,9 @@ public class StoredUtils {
         }
 
         if (isInfinity(itemStack)) {
-            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6已存储: " + getStoredFromCombined(itemStack).getName() + "x " + Constants.INFINITY_STRING));
+            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6已存储: " + getStoredFromCombined(itemStack).getName() + "&6 x" + Constants.INFINITY_STRING));
         } else {
-            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6已存储: " + getStoredFromCombined(itemStack).getName() + "x " + getStoredAmountFromCombined(itemStack)));
+            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6已存储: " + getStoredFromCombined(itemStack).getName() + "&6 x" + getStoredAmountFromCombined(itemStack)));
         }
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
