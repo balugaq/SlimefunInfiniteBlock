@@ -9,40 +9,45 @@ public class Icons {
     public static final SlimefunItemStack COMBINER = new SlimefunItemStack(
             "SIB_BLOCK_OPERATE_MACHINE",
             Material.CRAFTING_TABLE,
-            "&6方块融合台",
-            "&e将方块融合为融合方块",
-            "&e需要电力运行"
+            "&6方块制造台",
+            "&e无尽方块制造的地方"," &f",
+            "&a需要电力运行",
+            "&e❁ &f可存储8192J",
+            "&e❁ &f耗电量128J/t"
     );
 
     public static final SlimefunItemStack COMBINED_BLOCK = new SlimefunItemStack(
             "SIB_COMBINED_BLOCK",
-            Material.BEDROCK,
-            "&6融合方块",
-            "&e将大量方块融合为 1 个方块",
-            "&e已存储: "
+            Material.GLASS,
+            "&6无尽方块",
+            "&e浓缩的方块？怎么放出来的不一样"," &f",
+            " "
     );
 
     public static final SlimefunItemStack INFINITE_STAR = new SlimefunItemStack(
             "SIB_INFINITE_STAR",
             Material.NETHER_STAR,
             "&6无限之星",
-            "&6用于在物质爆发平衡器中产出物质",
-            "&6通过挖掘方块获得"
+            "&6用于在物质爆发平衡器中产出物质"," &f",
+            "&e❃ &6通过挖掘方块获得"
     );
 
     public static final SlimefunItemStack STAR_OPERATOR = new SlimefunItemStack(
             "SIB_STAR_OPERATOR",
             Material.CARTOGRAPHY_TABLE,
-            "&6操作台",
-            "&e用于制作无限融合方块"
+            "&6方块操作台",
+            "&e用于制作无尽方块"
     );
 
     public static final SlimefunItemStack ITEM_FOUNTAIN_BALANCER = new SlimefunItemStack(
             "SIB_ITEM_FOUNTAIN_BALANCER",
             Material.IRON_BLOCK,
             "&6物品爆发平衡器",
-            "&e产出物品",
-            "&e需要电力运行"
+            "&e通过无尽方块产出物品","&f ",
+
+            "&a需要电力运行",
+            "&e❁ &f可存储8192J",
+            "&e❁ &f耗电量128J/t"
     );
 
     public static final ItemStack NESTED_GROUP = new CustomItemStack(Material.CHEST, "&6无限方块");
@@ -62,26 +67,39 @@ public class Icons {
 
     //<editor-fold desc="Description">
     //<editor-fold desc="Description - Combiner">
+    //方块融合
     public static final ItemStack DESCRIPTION_COMBINER_1 = new CustomItemStack(
             Material.KNOWLEDGE_BOOK,
-            "&6描述",
-            "&e描述"
+            "&6机制-制造",
+            "&e任意方块在输入槽中会制造出无尽方块"
+    );
+    public static final ItemStack DESCRIPTION_COMBINER_2 = new CustomItemStack(
+            Material.KNOWLEDGE_BOOK,
+            "&6机制-添加",
+            "&e当输出槽有无尽方块时输入任意方块会添加至输出的方块"
+    );
+    public static final ItemStack DESCRIPTION_COMBINER_3 = new CustomItemStack(
+            Material.KNOWLEDGE_BOOK,
+            "&6机制-融合",
+            "&e当输入的是无尽方块时会融合数量至输出槽"
     );
     //</editor-fold>
 
     //<editor-fold desc="Description - Combined Block">
+    //物品爆发
     public static final ItemStack DESCRIPTION_ITEM_FOUNTAIN_BALANCER_1 = new CustomItemStack(
             Material.KNOWLEDGE_BOOK,
-            "&6描述",
-            "&e描述"
+            "&6机制-输出",
+            "&e当输入有数量的任意无尽方块时，输出对应产物"
     );
     //</editor-fold>
 
     //<editor-fold desc="Description - Star Operator">
+    //方块操作
     public static final ItemStack DESCRIPTION_STAR_OPERATOR_1 = new CustomItemStack(
             Material.KNOWLEDGE_BOOK,
-            "&6描述",
-            "&e描述"
+            "&6机制-合成",
+            "&e当无尽方块剩余数量>=1000000时","&e在左侧放入无尽方块右侧放入对应物品的无限之星","&e可合成剩余数量:∞的无尽方块"
     );
     //</editor-fold>
     //</editor-fold>
