@@ -1,6 +1,6 @@
-# SlimefunInfiniteBlock
+# SlimeInfiniteBlock
 
-SlimefunInfiniteBlock是slimefun附属插件之一。
+SlimeInfiniteBlock是slimefun附属插件之一。
 添加了可融合方块的机器和可无限使用的方块。
 本附属由balugaq与TouRuya主导开发
 

@@ -34,7 +34,7 @@ public class SIBItems {
                         SlimefunItem.getById("COOLING_UNIT").getItem(), SlimefunItem.getById("NTW_QUANTUM_STORAGE_8").getItem(), SlimefunItem.getById("COOLING_UNIT").getItem(),
                         SlimefunItems.WITHER_PROOF_GLASS, SlimefunItem.getById("ANDROID_MEMORY_CORE").getItem(),SlimefunItems.WITHER_PROOF_GLASS
                 }
-        );//我好像知道了 我是纸张
+        );
 
         COMBINED_BLOCK = new CombinedBlock(
                 SIBGroups.MATERIALS_GROUP,
