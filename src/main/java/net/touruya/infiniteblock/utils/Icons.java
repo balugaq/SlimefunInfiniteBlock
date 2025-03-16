@@ -10,7 +10,7 @@ public class Icons {
             "SIB_BLOCK_OPERATE_MACHINE",
             Material.CRAFTING_TABLE,
             "&6方块制造台",
-            "&e无尽方块制造的地方"," &f",
+            "&e无尽方块制造的地方"," ",
             "&a需要电力运行",
             "&e❁ &f可存储8192J",
             "&e❁ &f耗电量128J/t"
@@ -20,15 +20,14 @@ public class Icons {
             "SIB_COMBINED_BLOCK",
             Material.GLASS,
             "&6无尽方块",
-            "&e浓缩的方块？怎么放出来的不一样"," &f",
-            " "
+            "&e浓缩的方块？怎么放出来的不一样"," "
     );
 
     public static final SlimefunItemStack INFINITE_STAR = new SlimefunItemStack(
             "SIB_INFINITE_STAR",
             Material.NETHER_STAR,
             "&6无限之星",
-            "&6用于在物质爆发平衡器中产出物质"," &f",
+            "&6用于在物质爆发平衡器中产出物质"," ",
             "&e❃ &6通过挖掘方块获得"
     );
 
@@ -43,7 +42,7 @@ public class Icons {
             "SIB_ITEM_FOUNTAIN_BALANCER",
             Material.IRON_BLOCK,
             "&6物品爆发平衡器",
-            "&e通过无尽方块产出物品","&f ",
+            "&e通过无尽方块产出物品"," ",
 
             "&a需要电力运行",
             "&e❁ &f可存储8192J",

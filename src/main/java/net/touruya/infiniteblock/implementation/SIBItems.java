@@ -30,11 +30,11 @@ public class SIBItems {
                 Icons.COMBINER,
                 RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{
-                        Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(), Objects.requireNonNull(SlimefunItem.getById("ANDROID_MEMORY_CORE")).getItem(), Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(),
-                        Objects.requireNonNull(SlimefunItem.getById("COOLING_UNIT")).getItem(), Objects.requireNonNull(SlimefunItem.getById("NTW_QUANTUM_STORAGE_8")).getItem(), Objects.requireNonNull(SlimefunItem.getById("COOLING_UNIT")).getItem(),
-                        Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(), Objects.requireNonNull(SlimefunItem.getById("ANDROID_MEMORY_CORE")).getItem(), Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem()
+                        SlimefunItems.WITHER_PROOF_GLASS, SlimefunItem.getById("ANDROID_MEMORY_CORE").getItem(), SlimefunItems.WITHER_PROOF_GLASS,
+                        SlimefunItem.getById("COOLING_UNIT").getItem(), SlimefunItem.getById("NTW_QUANTUM_STORAGE_8").getItem(), SlimefunItem.getById("COOLING_UNIT").getItem(),
+                        SlimefunItems.WITHER_PROOF_GLASS, SlimefunItem.getById("ANDROID_MEMORY_CORE").getItem(),SlimefunItems.WITHER_PROOF_GLASS
                 }
-        );
+        );//我好像知道了 我是纸张
 
         COMBINED_BLOCK = new CombinedBlock(
                 SIBGroups.MATERIALS_GROUP,
@@ -55,9 +55,9 @@ public class SIBItems {
                 Icons.STAR_OPERATOR,
                 RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{
-                        Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(), Objects.requireNonNull(SlimefunItem.getById("NTW_RADIOACTIVE_OPTIC_STAR")).getItem(), Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(),
-                        Objects.requireNonNull(SlimefunItem.getById("NTW_ADVANCED_NANOBOTS")).getItem(), Icons.COMBINER, Objects.requireNonNull(SlimefunItem.getById("NTW_ADVANCED_NANOBOTS")).getItem(),
-                        Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(), Objects.requireNonNull(SlimefunItem.getById("NTW_ADVANCED_NANOBOTS")).getItem(), Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem()
+                        SlimefunItem.getById("WITHER_PROOF_GLASS").getItem(), SlimefunItem.getById("NTW_RADIOACTIVE_OPTIC_STAR").getItem(), SlimefunItem.getById("WITHER_PROOF_GLASS").getItem(),
+                        SlimefunItem.getById("NTW_ADVANCED_NANOBOTS").getItem(), Icons.COMBINER, SlimefunItem.getById("NTW_ADVANCED_NANOBOTS").getItem(),
+                        SlimefunItem.getById("WITHER_PROOF_GLASS").getItem(), SlimefunItem.getById("NTW_ADVANCED_NANOBOTS").getItem(), SlimefunItem.getById("WITHER_PROOF_GLASS").getItem()
                 }
         );
 //物品爆发

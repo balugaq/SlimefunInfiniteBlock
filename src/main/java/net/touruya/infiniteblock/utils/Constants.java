@@ -1,12 +1,10 @@
 package net.touruya.infiniteblock.utils;
 
-import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import lombok.experimental.UtilityClass;
 import net.touruya.infiniteblock.core.managers.ConfigManager;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Minecart;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;

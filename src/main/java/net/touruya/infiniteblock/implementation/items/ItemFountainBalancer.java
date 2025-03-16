@@ -113,19 +113,19 @@ public class ItemFountainBalancer extends AContainer implements RecipeDisplayIte
 
         ItemStack combined = menu.getItemInSlot(COMBINED_SLOT);
         if (combined == null || combined.getType() == Material.AIR) {
-            feedback(menu, "没有放入融合方块", false);
+            feedback(menu, "没有放入无尽方块", false);
             return false;
         }
 
         Stored combinedStored = StoredUtils.getStoredFromCombined(combined);
         if (combinedStored == null) {
-            feedback(menu, "融合方块已损坏", false);
+            feedback(menu, "无尽方块已损坏", false);
             return false;
         }
 
         ItemStack innerItem = StoredUtils.getUnpackedItemFromCombined(combined);
         if (innerItem.getType() == Material.AIR) {
-            feedback(menu, "融合方块内没有物品", false);
+            feedback(menu, "无尽方块内没有物品", false);
             return false;
         }
 
