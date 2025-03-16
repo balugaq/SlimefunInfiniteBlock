@@ -43,12 +43,12 @@ public class BlockListener implements Listener {
             if (StorageCacheUtils.getSfItem(location) == null) {
                 final long currentAmount = StoredUtils.getStoredAmountFromCombined(itemStack);
                 if (currentAmount <= 0) {
-                    player.sendMessage("融合方块已用完");
+                    player.sendMessage("无尽方块已用完");
                     e.setCancelled(true);
                     return;
                 }
                 if (itemStack.getAmount() != 1) {
-                    player.sendMessage("你只能手持一个融合方块");
+                    player.sendMessage("你只能手持一个无尽方块");
                     e.setCancelled(true);
                     return;
                 }
