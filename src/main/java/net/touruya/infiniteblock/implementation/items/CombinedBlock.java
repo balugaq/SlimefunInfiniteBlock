@@ -74,20 +74,21 @@ public class CombinedBlock extends SlimefunItem {
         );
     }
 
-    public void use(@NotNull Player player, @NotNull ItemStack combined, @NotNull Location location) {
+    public @Nullable Stored use(@NotNull Player player, @NotNull ItemStack combined, @NotNull Location location) {
         Stored stored = StoredUtils.getStoredFromCombined(combined);
         if (stored == null) {
-            return;
+            return null;
         }
 
         ItemStack storedItem = stored.getItemStack();
         if (!storedItem.getType().isBlock()) {
-            return;
+            return null;
         }
 
         placeBlock(player, combined, stored, location);
         StoredUtils.updateLoreForCombined(combined);
         generateParticle(location);
+        return stored;
     }
 
     public void placeBlock(@NotNull Player player, @NotNull ItemStack combined, @NotNull Stored stored, @NotNull Location location) {

@@ -2,13 +2,18 @@ package net.touruya.infiniteblock.core.listeners;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.Getter;
+import net.touruya.infiniteblock.api.stored.SlimefunStored;
+import net.touruya.infiniteblock.api.stored.Stored;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import net.touruya.infiniteblock.implementation.items.CombinedBlock;
 import net.touruya.infiniteblock.utils.StoredUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,6 +36,8 @@ public class BlockListener implements Listener {
         Location location = e.getBlockPlaced().getLocation();
         final ItemStack itemStack = e.getItemInHand().clone();
         SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
+        Block placedAgainst = e.getBlockAgainst();
+        BlockState replacedBlockState = e.getBlockReplacedState();
 
         if (sfItem instanceof CombinedBlock combinedBlock) {
             if (StorageCacheUtils.getSfItem(location) == null) {
@@ -48,8 +55,22 @@ public class BlockListener implements Listener {
 
                 Bukkit.getScheduler().runTaskLater(plugin, () -> {
                     Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
-                    combinedBlock.use(player, itemStack, location);
+                    Stored stored = combinedBlock.use(player, itemStack, location);
                     player.getInventory().setItem(e.getHand(), itemStack);
+                    if (stored instanceof SlimefunStored ss) {
+                        SlimefunItem slimefunItem = ss.getItem();
+                        slimefunItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(
+                                new BlockPlaceEvent(
+                                        location.getBlock(),
+                                        replacedBlockState,
+                                        placedAgainst,
+                                        itemStack,
+                                        player,
+                                        e.canBuild(),
+                                        e.getHand()
+                                )
+                        ));
+                    }
                 }, 1L);
             }
         }

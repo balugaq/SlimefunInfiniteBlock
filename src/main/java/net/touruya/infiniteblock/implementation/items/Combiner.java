@@ -173,7 +173,7 @@ public class Combiner extends AContainer {
         long additionAmount = 0;
         final ItemStack exisitingOutput = menu.getItemInSlot(OUTPUT_SLOT);
         if (exisitingOutput != null && exisitingOutput.getType() != Material.AIR) {
-            ItemStack unpackedExisting = StoredUtils.getUnpackedItem(exisitingOutput);
+            final ItemStack unpackedExisting = StoredUtils.getUnpackedItem(exisitingOutput);
             if (!StackUtils.itemsMatch(innerItem, unpackedExisting, true, false)) {
                 feedback(menu, "输出槽已有物品", false);
                 return false;
@@ -183,7 +183,8 @@ public class Combiner extends AContainer {
             }
         }
 
-        if (totalAmount > Integer.MAX_VALUE) {
+        final long finalAmount = totalAmount + additionAmount;
+        if (finalAmount > Integer.MAX_VALUE) {
             feedback(menu, "输入物品数量过多", false);
             return false;
         }
@@ -194,7 +195,7 @@ public class Combiner extends AContainer {
         }
 
         // push item
-        final ItemStack itemStack = StoredUtils.createCombined(innerItem, totalAmount + additionAmount);
+        final ItemStack itemStack = StoredUtils.createCombined(innerItem, finalAmount);
 
         menu.pushItem(itemStack, OUTPUT_SLOT);
         feedback(menu, "工作中", true);
