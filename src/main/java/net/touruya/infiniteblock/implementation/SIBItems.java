@@ -1,5 +1,6 @@
 package net.touruya.infiniteblock.implementation;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import lombok.experimental.UtilityClass;
@@ -12,6 +13,8 @@ import net.touruya.infiniteblock.utils.Icons;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 @UtilityClass
 public class SIBItems {
     public static Combiner COMBINER;
@@ -21,14 +24,15 @@ public class SIBItems {
     public static ItemFountainBalancer ITEM_FOUNTAIN_BALANCER;
 
     public static void setup(@NotNull InfiniteBlocks plugin) {
+        //方块融合
         COMBINER = new Combiner(
                 SIBGroups.MACHINES_GROUP,
                 Icons.COMBINER,
                 RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{
-                        SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR,
-                        SlimefunItems.CARBONADO, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.CARBONADO,
-                        SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR
+                        Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(), Objects.requireNonNull(SlimefunItem.getById("ANDROID_MEMORY_CORE")).getItem(), Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(),
+                        Objects.requireNonNull(SlimefunItem.getById("COOLING_UNIT")).getItem(), Objects.requireNonNull(SlimefunItem.getById("NTW_QUANTUM_STORAGE_8")).getItem(), Objects.requireNonNull(SlimefunItem.getById("COOLING_UNIT")).getItem(),
+                        Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(), Objects.requireNonNull(SlimefunItem.getById("ANDROID_MEMORY_CORE")).getItem(), Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem()
                 }
         );
 
@@ -45,18 +49,18 @@ public class SIBItems {
                 SIBRecipeTypes.RECIPE_TYPE_BREAK_BLOCK,
                 new ItemStack[0]
         );
-
+//方块操作
         STAR_OPERATOR = new StarOperator(
                 SIBGroups.MACHINES_GROUP,
                 Icons.STAR_OPERATOR,
                 RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{
-                        SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR,
-                        SlimefunItems.CARBONADO, Icons.ITEM_FOUNTAIN_BALANCER, SlimefunItems.CARBONADO,
-                        SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR
+                        Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(), Objects.requireNonNull(SlimefunItem.getById("NTW_RADIOACTIVE_OPTIC_STAR")).getItem(), Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(),
+                        Objects.requireNonNull(SlimefunItem.getById("NTW_ADVANCED_NANOBOTS")).getItem(), Icons.COMBINER, Objects.requireNonNull(SlimefunItem.getById("NTW_ADVANCED_NANOBOTS")).getItem(),
+                        Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem(), Objects.requireNonNull(SlimefunItem.getById("NTW_ADVANCED_NANOBOTS")).getItem(), Objects.requireNonNull(SlimefunItem.getById("WITHER_PROOF_GLASS")).getItem()
                 }
         );
-
+//物品爆发
         ITEM_FOUNTAIN_BALANCER = new ItemFountainBalancer(
                 SIBGroups.MACHINES_GROUP,
                 Icons.ITEM_FOUNTAIN_BALANCER,
