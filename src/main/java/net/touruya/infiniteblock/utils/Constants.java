@@ -1,9 +1,12 @@
 package net.touruya.infiniteblock.utils;
 
+import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import lombok.experimental.UtilityClass;
 import net.touruya.infiniteblock.core.managers.ConfigManager;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Minecart;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -55,7 +58,7 @@ public class Constants {
 
     //<editor-fold desc="Descriptions">
     public static final List<ItemStack> DESCRIPTION_COMBINER = List.of(
-            Icons.DESCRIPTION_COMBINER_1
+            Icons.DESCRIPTION_COMBINER_1,new ItemStack(Material.AIR),Icons.DESCRIPTION_COMBINER_2,new ItemStack(Material.AIR),Icons.DESCRIPTION_COMBINER_3
     );
 
     public static final List<ItemStack> DESCRIPTION_ITEM_FOUNTAIN_BALANCER = List.of(
