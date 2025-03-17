@@ -122,16 +122,16 @@ public class StoredUtils {
         }
 
         if (isInfinity(itemStack)) {
-            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6已存储: " + getStoredFromCombined(itemStack).getName() + "&6 x" + Constants.INFINITY_STRING));
+            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&e❃ &d剩余: " + getStoredFromCombined(itemStack).getName() + "&6 x" + Constants.INFINITY_STRING));
         } else {
-            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6已存储: " + getStoredFromCombined(itemStack).getName() + "&6 x" + getStoredAmountFromCombined(itemStack)));
+            lore.set(1, ChatColor.translateAlternateColorCodes('&', "&e❃ &d剩余: " + getStoredFromCombined(itemStack).getName() + "&6 x" + getStoredAmountFromCombined(itemStack)));
         }
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
     }
 
     public static void updateActionBarForPlayer(@NotNull Player player, @NotNull Stored stored, long amount) {
-        player.sendActionBar(Component.text("剩余: " + stored.getName() + " x" + (isInfinity(amount) ? Constants.INFINITY_STRING : amount)));
+        player.sendActionBar(Component.text("❃ 剩余: " + stored.getName() + " x" + (isInfinity(amount) ? Constants.INFINITY_STRING : amount)));
     }
 
     public static boolean isInfinity(@NotNull ItemStack itemStack) {

@@ -92,7 +92,7 @@ public class CombinedBlock extends SlimefunItem {
     public void placeBlock(@NotNull Player player, @NotNull ItemStack combined, @NotNull Stored stored, @NotNull Location location) {
         final long currentAmount = StoredUtils.getStoredAmountFromCombined(combined);
         if (currentAmount <= 0) {
-            player.sendMessage("融合方块已用完");
+            player.sendMessage("无尽方块已用完");
             return;
         }
 
