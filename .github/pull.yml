@@ -1,0 +1,11 @@
+version: "1"
+rules:
+  - base: master
+    mergeMethod: merge
+    assignees:
+      - TouRuya
+      - balugaq
+    conflictReviewers:
+      - TouRuya
+      - balugaq
+
