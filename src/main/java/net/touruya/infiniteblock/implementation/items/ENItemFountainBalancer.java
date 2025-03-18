@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ItemFountainBalancer extends AContainer implements RecipeDisplayItem {
+public class ENItemFountainBalancer extends AContainer implements RecipeDisplayItem {
     public static final int[] BACKGROUND_SLOTS = {
             0, 1, 2, 3, 5, 6, 7, 8,
             45, 46, 47, 48, 50, 51, 52, 53,
@@ -42,7 +42,7 @@ public class ItemFountainBalancer extends AContainer implements RecipeDisplayIte
     };
     public static final int COMBINED_SLOT = 4;
 
-    public ItemFountainBalancer(@NotNull ItemGroup category, @NotNull SlimefunItemStack item, @NotNull RecipeType recipeType, ItemStack @NotNull [] recipe) {
+    public ENItemFountainBalancer(@NotNull ItemGroup category, @NotNull SlimefunItemStack item, @NotNull RecipeType recipeType, ItemStack @NotNull [] recipe) {
         super(category, item, recipeType, recipe);
         new BlockMenuPreset(this.getId(), getItemName()) {
 
@@ -122,11 +122,7 @@ public class ItemFountainBalancer extends AContainer implements RecipeDisplayIte
             feedback(menu, "无尽方块已损坏", false);
             return false;
         }
-        // 检查是否为无限数量
-        if (StoredUtils.isInfinity(combined)) {
-            feedback(menu, "无尽方块数量为无限，无法输出", false);
-            return false;
-        }
+
         ItemStack innerItem = StoredUtils.getUnpackedItemFromCombined(combined);
         if (innerItem.getType() == Material.AIR) {
             feedback(menu, "无尽方块内没有物品", false);
@@ -171,6 +167,7 @@ public class ItemFountainBalancer extends AContainer implements RecipeDisplayIte
     @Override
     @NotNull
     public List<ItemStack> getDisplayRecipes() {
-        return Constants.DESCRIPTION_ITEM_FOUNTAIN_BALANCER;
+
+        return Constants.DESCRIPTION_ENITEM_FOUNTAIN_BALANCER;
     }
 }
