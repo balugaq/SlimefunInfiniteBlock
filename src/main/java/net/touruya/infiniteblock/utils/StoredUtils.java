@@ -74,10 +74,17 @@ public class StoredUtils {
         if (stored == null) {
             return new ItemStack(Material.AIR);
         }
+
+        // 检查
+        if (isInfinity(combined)) {
+            return new CustomItemStack(stored.getItemStack(), 64); // 返回物品
+        }
+
         long amount = getStoredAmountFromCombined(combined);
         if (amount <= 0) {
             return new ItemStack(Material.AIR);
         }
+
         return new CustomItemStack(stored.getItemStack(), amount > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) amount);
     }
 

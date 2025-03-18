@@ -60,6 +60,9 @@ public class Constants {
     );
 
     public static final List<ItemStack> DESCRIPTION_ITEM_FOUNTAIN_BALANCER = List.of(
+            Icons.DESCRIPTION_ITEM_FOUNTAIN_BALANCER_1,Icons.DESCRIPTION_ITEM_FOUNTAIN_BALANCER_2
+    );
+    public static final List<ItemStack> DESCRIPTION_ENITEM_FOUNTAIN_BALANCER = List.of(
             Icons.DESCRIPTION_ITEM_FOUNTAIN_BALANCER_1
     );
 

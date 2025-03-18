@@ -68,7 +68,7 @@ public class InfiniteStar extends SlimefunItem {
             return;
         }
 
-        lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6已存储: " + getStoredFromStar(itemStack).getName()));
+        lore.set(1, ChatColor.translateAlternateColorCodes('&', "&6剩余: " + getStoredFromStar(itemStack).getName()));
 
         meta.setLore(lore);
         itemStack.setItemMeta(meta);

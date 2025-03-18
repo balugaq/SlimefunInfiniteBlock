@@ -2,6 +2,7 @@ package net.touruya.infiniteblock.utils;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import net.touruya.infiniteblock.core.managers.ConfigManager;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -41,14 +42,23 @@ public class Icons {
     public static final SlimefunItemStack ITEM_FOUNTAIN_BALANCER = new SlimefunItemStack(
             "SIB_ITEM_FOUNTAIN_BALANCER",
             Material.IRON_BLOCK,
-            "&6物品爆发平衡器",
+            "&6物品输出器",
             "&e通过无尽方块产出物品"," ",
 
             "&a需要电力运行",
             "&e❁ &f可存储8192J",
             "&e❁ &f耗电量128J/t"
     );
+    public static final SlimefunItemStack ENITEM_FOUNTAIN_BALANCER = new SlimefunItemStack(
+            "SIB_ENITEM_FOUNTAIN_BALANCER",
+            Material.IRON_BLOCK,
+            "&4终极物品输出器",
+            "&e通过无尽方块产出物品"," ",
 
+            "&a需要电力运行",
+            "&e❁ &f可存储8192J",
+            "&e❁ &f耗电量128J/t"
+    );
     public static final ItemStack NESTED_GROUP = new CustomItemStack(Material.CHEST, "&6无限方块");
     public static final ItemStack MACHINES_GROUP = new CustomItemStack(Material.DISPENSER, "&6无限方块 - 机器");
     public static final ItemStack MATERIALS_GROUP = new CustomItemStack(Material.NETHER_STAR, "&6无限方块 - 材料");
@@ -58,7 +68,17 @@ public class Icons {
             "&c破坏方块",
             "&7通过破坏方块获得"
     );
-
+    //无限之星
+    public static final ItemStack INFINITE_STAR_LORE = new CustomItemStack(
+            Material.KNOWLEDGE_BOOK,
+            "&6机制-获取",
+            "&e当破坏任意方块数量达" + Constants.STAR_THRESHOLD + "&e时","&e在背包发放对应物品的无限之星","&e背包无空位则掉落至地面","&b支持粘液科技方块,机器"
+    );
+    public static final ItemStack INFINITE_STAR_LORE1 = new CustomItemStack(
+            Material.KNOWLEDGE_BOOK,
+            "&f机制-&c限制",
+            "&c当破坏的方块重新放置后会使破坏数量减少"
+    );
     public static final ItemStack BACKGROUND = new CustomItemStack(Material.GRAY_STAINED_GLASS_PANE, " ", " ");
     public static final ItemStack INPUT_BORDER = new CustomItemStack(Material.BLUE_STAINED_GLASS_PANE, " ", " ");
     public static final ItemStack OUTPUT_BORDER = new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE, " ", " ");
@@ -91,8 +111,12 @@ public class Icons {
             "&6机制-输出",
             "&e当输入有数量的任意无尽方块时，输出对应产物"
     );
+    public static final ItemStack DESCRIPTION_ITEM_FOUNTAIN_BALANCER_2 = new CustomItemStack(
+            Material.KNOWLEDGE_BOOK,
+            "&c机制-限制",
+            "&e当输入无限数量的任意无尽方块时，无法输出对应产物"
+    );
     //</editor-fold>
-
     //<editor-fold desc="Description - Star Operator">
     //方块操作
     public static final ItemStack DESCRIPTION_STAR_OPERATOR_1 = new CustomItemStack(
@@ -100,6 +124,7 @@ public class Icons {
             "&6机制-合成",
             "&e当无尽方块剩余数量>=1000000时","&e在左侧放入无尽方块右侧放入对应物品的无限之星","&e可合成剩余数量:∞的无尽方块"
     );
+
     //</editor-fold>
     //</editor-fold>
 }

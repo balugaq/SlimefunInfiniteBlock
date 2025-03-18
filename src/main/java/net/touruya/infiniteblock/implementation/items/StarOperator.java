@@ -103,7 +103,7 @@ public class StarOperator extends SlimefunItem implements RecipeDisplayItem {
     public boolean craft(@NotNull BlockMenu menu) {
         ItemStack combined = menu.getItemInSlot(COMBINED_SLOT);
         if (combined == null || combined.getType() == Material.AIR) {
-            feedback(menu, "未放入融合方块", false);
+            feedback(menu, "未放入无尽方块", false);
             return false;
         }
 
@@ -115,12 +115,12 @@ public class StarOperator extends SlimefunItem implements RecipeDisplayItem {
 
         ItemStack innerItemStack = StoredUtils.getUnpackedItemFromCombined(combined);
         if (innerItemStack.getType() == Material.AIR) {
-            feedback(menu, "融合方块无效", false);
+            feedback(menu, "无尽方块无效", false);
             return false;
         }
 
         if (innerItemStack.getAmount() < Constants.INFINITY_THRESHOLD) {
-            feedback(menu, "融合方块数量不足", false);
+            feedback(menu, "无尽方块数量不足", false);
             return false;
         }
 

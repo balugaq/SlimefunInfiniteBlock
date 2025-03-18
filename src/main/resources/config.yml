@@ -1,3 +1,6 @@
+#此为无限方块合成最低要求堆叠方块数量
 infinity-threshold: 1000000
+#此为自动保存时间
 autosave-period: 300
+#此为无限之星掉落所需最少破坏方块数
 star-threshold: 100000
