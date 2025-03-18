@@ -77,7 +77,7 @@ public class StoredUtils {
 
         // 检查
         if (isInfinity(combined)) {
-            return new CustomItemStack(stored.getItemStack(), 576); // 返回物品
+            return new CustomItemStack(stored.getItemStack(), 64); // 返回物品
         }
 
         long amount = getStoredAmountFromCombined(combined);
