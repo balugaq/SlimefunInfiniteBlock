@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import net.md_5.bungee.api.ChatColor;
+import net.touruya.infiniteblock.api.stored.NotDupeable;
 import net.touruya.infiniteblock.api.stored.SlimefunStored;
 import net.touruya.infiniteblock.api.stored.Stored;
 import net.touruya.infiniteblock.api.stored.VanillaStored;
@@ -18,16 +19,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class InfiniteStar extends SlimefunItem {
+public class InfiniteStar extends SlimefunItem implements NotDupeable {
     private static InfiniteStar instance;
-    private static String name;
-    private static String[] lore;
 
     public InfiniteStar(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack slimefunItemStack, @NotNull RecipeType recipeType, ItemStack @NotNull [] recipe) {
         super(itemGroup, slimefunItemStack, recipeType, recipe);
         instance = this;
-        name = instance.getItemName();
-        lore = instance.getItem().getItemMeta().getLore().toArray(new String[0]);
     }
 
     public static @NotNull ItemStack createStar(@NotNull Stored stored) {

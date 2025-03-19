@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
+import net.touruya.infiniteblock.api.stored.NotDupeable;
 import net.touruya.infiniteblock.api.stored.SlimefunStored;
 import net.touruya.infiniteblock.api.stored.Stored;
 import net.touruya.infiniteblock.utils.Constants;
@@ -28,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
-public class CombinedBlock extends SlimefunItem {
+public class CombinedBlock extends SlimefunItem implements NotDupeable {
     private static CombinedBlock instance;
     private static @Nullable String name;
     private static String[] lore;
