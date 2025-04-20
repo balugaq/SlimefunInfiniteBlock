@@ -93,7 +93,10 @@ public class StarListener implements Listener {
     private void giveStar(@NotNull Player player, @NotNull Stored stored, int amount) {
         ItemStack star = InfiniteStar.createStar(stored);
         star.setAmount(amount);
-        player.getWorld().dropItemNaturally(player.getLocation(), star);
+        var left = player.getInventory().addItem(star);
+        if (left != null && !left.isEmpty()) {
+            player.getWorld().dropItemNaturally(player.getLocation(), star);
+        }
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6你获取了 " + amount + " 个无限之星!"));
     }
 }
