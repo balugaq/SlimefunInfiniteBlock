@@ -1,11 +1,11 @@
 package net.touruya.infiniteblock.implementation.items;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import net.md_5.bungee.api.ChatColor;
+import net.touruya.infiniteblock.api.objects.CustomSlimefunItem;
 import net.touruya.infiniteblock.api.stored.NotDupeable;
 import net.touruya.infiniteblock.api.stored.SlimefunStored;
 import net.touruya.infiniteblock.api.stored.Stored;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class InfiniteStar extends SlimefunItem implements NotDupeable {
+public class InfiniteStar extends CustomSlimefunItem implements NotDupeable {
     private static InfiniteStar instance;
 
     public InfiniteStar(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack slimefunItemStack, @NotNull RecipeType recipeType, ItemStack @NotNull [] recipe) {

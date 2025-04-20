@@ -10,10 +10,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import net.touruya.infiniteblock.api.objects.CustomAContainer;
 import net.touruya.infiniteblock.api.stored.Stored;
 import net.touruya.infiniteblock.utils.BlockMenuUtil;
 import net.touruya.infiniteblock.utils.Constants;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ItemFountainBalancer extends AContainer implements RecipeDisplayItem {
+public class ItemFountainBalancer extends CustomAContainer implements RecipeDisplayItem {
     public static final int[] BACKGROUND_SLOTS = {
             0, 1, 2, 3, 5, 6, 7, 8,
             45, 46, 47, 48, 50, 51, 52, 53,

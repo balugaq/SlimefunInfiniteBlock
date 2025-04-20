@@ -9,6 +9,7 @@ import net.touruya.infiniteblock.api.stored.SlimefunStored;
 import net.touruya.infiniteblock.api.stored.Stored;
 import net.touruya.infiniteblock.implementation.InfiniteBlocks;
 import net.touruya.infiniteblock.implementation.items.CombinedBlock;
+import net.touruya.infiniteblock.utils.PermissionUtil;
 import net.touruya.infiniteblock.utils.StoredUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,7 +18,9 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,13 +34,18 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onCombinedBlockPlace(@NotNull BlockPlaceEvent e) {
+    public void onCombinedBlockPlace(@NotNull PlayerInteractEvent e) {
+        if (e.getClickedBlock() == null || e.getHand() == null || e.getBlockFace() == null || e.getItem() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+
         Player player = e.getPlayer();
-        Location location = e.getBlockPlaced().getLocation();
-        final ItemStack itemStack = e.getItemInHand().clone();
+        Block replacedBlock = e.getClickedBlock().getRelative(e.getBlockFace());
+        Location location = replacedBlock.getLocation();
+        ItemStack itemStack = e.getItem().clone();
         SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
-        Block placedAgainst = e.getBlockAgainst();
-        BlockState replacedBlockState = e.getBlockReplacedState();
+        Block placedAgainst = e.getClickedBlock();
+        BlockState replacedBlockState = replacedBlock.getState();
 
         if (sfItem instanceof CombinedBlock combinedBlock) {
             if (StorageCacheUtils.getSfItem(location) == null) {
@@ -66,7 +74,7 @@ public class BlockListener implements Listener {
                                         placedAgainst,
                                         itemStack,
                                         player,
-                                        e.canBuild(),
+                                        PermissionUtil.hasPermission(player, location),
                                         e.getHand()
                                 )
                         ));

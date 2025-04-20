@@ -2,7 +2,6 @@ package net.touruya.infiniteblock.utils;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import net.touruya.infiniteblock.core.managers.ConfigManager;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

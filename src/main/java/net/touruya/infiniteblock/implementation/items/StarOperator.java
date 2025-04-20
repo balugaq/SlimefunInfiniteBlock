@@ -2,7 +2,6 @@ package net.touruya.infiniteblock.implementation.items;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
@@ -13,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import net.touruya.infiniteblock.api.objects.CustomSlimefunItem;
 import net.touruya.infiniteblock.utils.Constants;
 import net.touruya.infiniteblock.utils.Icons;
 import net.touruya.infiniteblock.utils.StackUtils;
@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class StarOperator extends SlimefunItem implements RecipeDisplayItem {
+public class StarOperator extends CustomSlimefunItem implements RecipeDisplayItem {
     public static final int[] BACKGROUND_SLOTS = {
             3, 4, 5, 12, 14, 21, 22, 23,
             27, 28, 29, 33, 34, 35,

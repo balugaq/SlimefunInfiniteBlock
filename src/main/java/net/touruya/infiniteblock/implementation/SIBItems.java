@@ -4,13 +4,16 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import lombok.experimental.UtilityClass;
-import net.touruya.infiniteblock.implementation.items.*;
+import net.touruya.infiniteblock.implementation.items.CombinedBlock;
+import net.touruya.infiniteblock.implementation.items.Combiner;
+import net.touruya.infiniteblock.implementation.items.ENItemFountainBalancer;
+import net.touruya.infiniteblock.implementation.items.InfiniteStar;
+import net.touruya.infiniteblock.implementation.items.ItemFountainBalancer;
+import net.touruya.infiniteblock.implementation.items.StarOperator;
 import net.touruya.infiniteblock.utils.Icons;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 @UtilityClass
 public class SIBItems {
