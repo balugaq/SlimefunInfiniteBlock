@@ -45,6 +45,7 @@ public class CombinedBlock extends CustomSlimefunItem implements NotDupeable {
             public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {
             }
         });
+        setUseableInWorkbench(true);
     }
 
     public static @NotNull ItemStack createCombined(@NotNull Stored stored, long amount) {
