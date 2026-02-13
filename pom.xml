@@ -6,7 +6,7 @@
 
     <groupId>net.touruya</groupId>
     <artifactId>infinite-blocks</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <pluginRepositories>
         <pluginRepository>
