@@ -39,3 +39,5 @@ build/
 
 dependency-reduced-pom.xml
 .idea/
+
+.workbuddy
